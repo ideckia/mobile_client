@@ -12,9 +12,10 @@ class IpFinder {
         try {
           String url = 'http://192.168.1.${i.toString()}:${port.toString()}/marco';
           
+          client.connectionTimeout = Duration(seconds: 5);
           client.getUrl(Uri.parse(url))
             .then((HttpClientRequest request) {
-              return request.close().timeout(const Duration(seconds: 5));
+              return request.close();
             })
             .catchError((error) {
                 counter++;

@@ -3,10 +3,6 @@ import 'package:ideckia/IpFinder.dart';
 import 'package:web_socket_channel/io.dart';
 
 import 'IdeckiaLayoutView.dart';
-import 'dart:convert';
-
-import 'package:ideckia/model/IdeckiaLayout.dart';
-import 'package:ideckia/model/ServerMsg.dart';
 
 class LookForIpView extends StatefulWidget {
   LookForIpView({Key key}) : super(key: key);
@@ -17,8 +13,7 @@ class LookForIpView extends StatefulWidget {
 
 class _LookForIpViewState extends State<LookForIpView> {
   int foundIp = -2;
-  int port = 5050;
-  IOWebSocketChannel channel;
+  int port = 8888;
   final manualIpController = TextEditingController();
   final portController = TextEditingController();
 
@@ -32,12 +27,6 @@ class _LookForIpViewState extends State<LookForIpView> {
     super.initState();
     IpFinder.discover('', port, setIp);
     portController.text = port.toString();
-  }
-
-  void onItemClick(int itemId) {
-    print('call to ws: $itemId');
-    channel.sink.add(
-        jsonEncode({'type': 'click', 'whoami': 'client', 'itemId': itemId}));
   }
 
   Widget notFound() {
@@ -54,6 +43,7 @@ class _LookForIpViewState extends State<LookForIpView> {
                 foundIp = -2;
                 IpFinder.discover('', port, setIp);
               },
+              style: ElevatedButton.styleFrom(minimumSize: Size(100, 150)),
               child: Center(
                 child: Text(
                   'Server not found, retry.',
@@ -126,41 +116,10 @@ class _LookForIpViewState extends State<LookForIpView> {
     } else if (foundIp == -1) {
       return notFound();
     } else {
-      var url = 'ws://192.168.1.$foundIp:8080';
-      channel = IOWebSocketChannel.connect(url);
-
-      return Scaffold(
-        body: StreamBuilder(
-            stream: channel.stream,
-            builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-              print('snapshot: $snapshot');
-              switch (snapshot.connectionState) {
-                case ConnectionState.active:
-                  ServerMsg serverMsg =
-                      ServerMsg.fromJson(jsonDecode(snapshot.data));
-                  if (serverMsg.type == 'layout') {
-                    print('new layout');
-                    return IdeckiaLayoutView(
-                      ideckiaLayout: IdeckiaLayout.fromJson(serverMsg.data),
-                      onItemClick: onItemClick,
-                    );
-                  }
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 24.0,
-                    ),
-                    child: Text(
-                      snapshot.hasData ? '${snapshot.data}' : '',
-                    ),
-                  );
-                case ConnectionState.done:
-                  return notFound();
-                default:
-                  return new Center(
-                    child: new CircularProgressIndicator(),
-                  );
-              }
-            }),
+      var url = 'ws://192.168.1.$foundIp:$port';
+      return IdeckiaLayoutView(
+        channel: IOWebSocketChannel.connect(url),
+        defaultWidget: notFound(),
       );
     }
   } // build
