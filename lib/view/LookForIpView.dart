@@ -53,7 +53,7 @@ class _LookForIpViewState extends State<LookForIpView> {
             Row(
               children: <Widget>[
                 Text(
-                  'Enter IP address',
+                  'Enter IP address:',
                   style: TextStyle(
                     fontSize: 20,
                     color: Colors.white,
@@ -61,7 +61,18 @@ class _LookForIpViewState extends State<LookForIpView> {
                 ),
                 Container(
                   width: 100,
-                  padding: EdgeInsets.all(8.0),
+                  padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                  child: Text(
+                    '192.168.1.',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
+                Container(
+                  width: 100,
+                  padding: EdgeInsets.zero,
                   child: TextField(
                     controller: manualIpController,
                     keyboardType: TextInputType.number,
@@ -72,8 +83,19 @@ class _LookForIpViewState extends State<LookForIpView> {
                   ),
                 ),
                 Container(
+                  width: 8,
+                  padding: EdgeInsets.zero,
+                  child: Text(
+                    ':',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
+                Container(
                   width: 100,
-                  padding: EdgeInsets.all(8.0),
+                  padding: EdgeInsets.zero,
                   child: TextField(
                     controller: portController,
                     keyboardType: TextInputType.number,
