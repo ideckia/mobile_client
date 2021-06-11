@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter_logs/flutter_logs.dart';
+
 class IpFinder {
   static void discover(String baseUrl, int port, Function(int) callback) {
     var client = HttpClient();
@@ -19,7 +21,7 @@ class IpFinder {
             })
             .catchError((error) {
                 counter++;
-                print('error #${counter.toString()} in url $url: ${error.toString()}');
+                FlutterLogs.logErrorTrace("ERROR", "ideckia", '#${counter.toString()} in url $url', error);
                 if (counter == max-1 && !found) {
                   callback(-1);
                 }
@@ -37,7 +39,7 @@ class IpFinder {
             })
             .catchError((error) {
               counter++;
-                print('error #${counter.toString()} in url $url: ${error.toString()}');
+                FlutterLogs.logErrorTrace("ERROR", "ideckia", '#${counter.toString()} in url $url', error);
                 if (counter == max-1 && !found) {
                   callback(-1);
                 }
@@ -45,7 +47,7 @@ class IpFinder {
             });
         } catch (e) {
           counter++;
-          print('error #${counter.toString()}: ${e.toString()}');
+          FlutterLogs.logErrorTrace("ERROR", "ideckia", '#${counter.toString()}', e);
           if (counter == max-1 && !found) {
             callback(-1);
           }

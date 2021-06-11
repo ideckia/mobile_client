@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_logs/flutter_logs.dart';
 import 'package:ideckia/IpFinder.dart';
 import 'package:web_socket_channel/io.dart';
 
@@ -18,7 +19,7 @@ class _LookForIpViewState extends State<LookForIpView> {
   final portController = TextEditingController();
 
   void setIp(int theIp) {
-    print('setIp: ${theIp.toString()}');
+    FlutterLogs.logInfo("INFO", "ideckia", 'setIp: ${theIp.toString()}');
     setState(() => {foundIp = theIp});
   }
 
@@ -128,7 +129,7 @@ class _LookForIpViewState extends State<LookForIpView> {
 
   @override
   Widget build(BuildContext context) {
-    print('foundIp: $foundIp : $port');
+    FlutterLogs.logInfo("INFO", "ideckia", 'foundIp: $foundIp : $port');
     if (foundIp == -2) {
       return new Center(
         child: new CircularProgressIndicator(
