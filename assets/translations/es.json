@@ -1,0 +1,7 @@
+{
+    "zerbitzari_bila": "Intentadon conectar con el servidor",
+    "no_server_found_title": "No se pudo conectar al servidor.",
+    "retry_auto_find_server": "Intentar conectar automáticamente",
+    "enter_ip": "Inserta IP",
+    "manual_find_server": "Conectar"
+}

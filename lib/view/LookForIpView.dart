@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_logs/flutter_logs.dart';
 import 'package:ideckia/IpFinder.dart';
@@ -33,7 +34,7 @@ class _LookForIpViewState extends State<LookForIpView> {
   Widget notFound() {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Could not connect to server'),
+        title: Text(tr('no_server_found_title')),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -47,14 +48,14 @@ class _LookForIpViewState extends State<LookForIpView> {
               style: ElevatedButton.styleFrom(minimumSize: Size(100, 150)),
               child: Center(
                 child: Text(
-                  'Server not found, retry.',
+                  tr('retry_auto_find_server'),
                 ),
               ),
             ),
             Row(
               children: <Widget>[
                 Text(
-                  'Enter IP address:',
+                  tr('enter_ip'),
                   style: TextStyle(
                     fontSize: 20,
                     color: Colors.white,
@@ -115,7 +116,7 @@ class _LookForIpViewState extends State<LookForIpView> {
                   },
                   child: Center(
                     child: Text(
-                      'Try.',
+                      tr('manual_find_server'),
                     ),
                   ),
                 )
@@ -133,7 +134,7 @@ class _LookForIpViewState extends State<LookForIpView> {
     if (foundIp == -2) {
       return new Center(
         child: new CircularProgressIndicator(
-          semanticsValue: "Looking for a ideckia server",
+          semanticsValue: tr('zerbitzari_bila'),
         ),
       );
     } else if (foundIp == -1) {
