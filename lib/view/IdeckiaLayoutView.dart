@@ -26,6 +26,16 @@ class IdeckiaLayoutView extends StatelessWidget {
     );
   }
 
+  void onItemLongPress(int itemId) {
+    channel.sink.add(
+      jsonEncode({
+        'type': 'longPress',
+        'whoami': 'client',
+        'itemId': itemId,
+      }),
+    );
+  }
+
   List<Widget> createLayout(IdeckiaLayout ideckiaLayout, BuildContext context) {
     if (ideckiaLayout == null) {
       return [];
@@ -61,6 +71,7 @@ class IdeckiaLayoutView extends StatelessWidget {
         columns.add(ItemStateView(
           itemState: itemState,
           onClick: onItemClick,
+          onLongPress: onItemLongPress,
           buttonSize: buttonSize,
           buttonRadius: radius,
         ));
