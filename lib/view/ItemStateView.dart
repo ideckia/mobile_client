@@ -2,16 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:ideckia/model/ItemState.dart';
 
 class ItemStateView extends StatelessWidget {
-  ItemStateView({Key key, this.itemState, this.buttonSize, this.buttonRadius, this.onClick}) : super(key: key);
+  ItemStateView({
+    Key key,
+    this.itemState,
+    this.buttonSize,
+    this.buttonRadius,
+    this.onClick,
+    this.onLongPress,
+  }) : super(key: key);
   final ItemState itemState;
   final Function(int) onClick;
+  final Function(int) onLongPress;
   final double buttonSize;
   final double buttonRadius;
   //
 
   @override
   Widget build(BuildContext context) {
-
     return MaterialButton(
       padding: EdgeInsets.all(8.0),
       textColor: itemState.textColor,
@@ -45,6 +52,9 @@ class ItemStateView extends StatelessWidget {
       ),
       onPressed: () {
         onClick(itemState.id);
+      },
+      onLongPress: () {
+        onLongPress(itemState.id);
       },
     );
   }
