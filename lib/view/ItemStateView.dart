@@ -44,7 +44,7 @@ class ItemStateView extends StatelessWidget {
           child: Text(
             itemState.text,
             style: TextStyle(
-              fontSize: 20,
+              fontSize: itemState.textSize,
               color: itemState.textColor,
             ),
           ),
