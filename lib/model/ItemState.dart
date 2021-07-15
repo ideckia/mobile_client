@@ -19,25 +19,29 @@ class ItemState {
     this.iconData,
   );
 
+  static final String defaultText = '';
+  static final double defaultTextSize = 18;
+  static final Color defaultTextColor = Colors.white;
+  static final Color defaultbgColor = Colors.blueGrey.shade900;
+
   factory ItemState.fromJson(Map<String, dynamic> json) {
     var allNull = true;
 
-    String text = '';
+    String text = defaultText;
+    double textSize = defaultTextSize;
     if (json['text'] != null) {
       text = json['text'].toString();
       allNull = false;
+      if (json['textSize'] != null) {
+        textSize = json['textSize'].toDouble();
+      }
     }
-    double textSize = 18;
-    if (json['textSize'] != null) {
-      textSize = json['textSize'].toDouble();
-      allNull = false;
-    }
-    Color textColor = Colors.white;
+    Color textColor = defaultTextColor;
     if (json['textColor'] != null) {
       textColor = Color(int.parse(json['textColor'], radix: 16));
       allNull = false;
     }
-    Color bgColor = Colors.blueGrey.shade900;
+    Color bgColor = defaultbgColor;
     if (json['bgColor'] != null) {
       bgColor = Color(int.parse(json['bgColor'], radix: 16));
       allNull = false;
@@ -64,6 +68,13 @@ class ItemState {
   }
 
   factory ItemState.empty() {
-    return ItemState(-1, '', 15, Colors.white, Colors.grey, null);
+    return ItemState(
+      -1,
+      defaultText,
+      defaultTextSize,
+      defaultTextColor,
+      defaultbgColor,
+      null,
+    );
   }
 }
