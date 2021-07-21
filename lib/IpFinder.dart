@@ -12,7 +12,7 @@ class IpFinder {
       var found = false;
       for (var i = 0; i < max && !found; i++) {
         try {
-          String url = 'http://192.168.1.${i.toString()}:${port.toString()}/marco';
+          String url = 'http://192.168.1.${i.toString()}:${port.toString()}/ping';
           
           client.connectionTimeout = Duration(seconds: 5);
           client.getUrl(Uri.parse(url))
@@ -30,7 +30,7 @@ class IpFinder {
             .then((HttpClientResponse response) {
               if (response != null) {
                 response.transform(utf8.decoder).listen((contents) {
-                  if (contents == 'polo') {
+                  if (contents == 'pong') {
                     found = true;
                     callback(i);
                   }
