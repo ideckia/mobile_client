@@ -1,8 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_logs/flutter_logs.dart';
 import 'package:ideckia/IpFinder.dart';
 import 'package:web_socket_channel/io.dart';
+import 'package:ideckia/Log.dart';
 
 import 'IdeckiaLayoutView.dart';
 
@@ -14,20 +14,22 @@ class LookForIpView extends StatefulWidget {
 }
 
 class _LookForIpViewState extends State<LookForIpView> {
-  int foundIp = -2;
+  String theIp;
   int port = 8888;
   final manualIpController = TextEditingController();
   final portController = TextEditingController();
 
-  void setIp(int theIp) {
-    FlutterLogs.logInfo("INFO", "ideckia", 'setIp: ${theIp.toString()}');
-    setState(() => {foundIp = theIp});
+  void setIp(String foundIp) {
+    Log.info('setIp: $foundIp');
+    setState(() => {
+          theIp = foundIp,
+        });
   }
 
   @override
   void initState() {
     super.initState();
-    IpFinder.discover('', port, setIp);
+    IpFinder.discover(port, setIp);
     portController.text = port.toString();
   }
 
@@ -40,18 +42,6 @@ class _LookForIpViewState extends State<LookForIpView> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            ElevatedButton(
-              onPressed: () {
-                foundIp = -2;
-                IpFinder.discover('', port, setIp);
-              },
-              style: ElevatedButton.styleFrom(minimumSize: Size(100, 150)),
-              child: Center(
-                child: Text(
-                  tr('retry_auto_find_server'),
-                ),
-              ),
-            ),
             Row(
               children: <Widget>[
                 Text(
@@ -62,25 +52,22 @@ class _LookForIpViewState extends State<LookForIpView> {
                   ),
                 ),
                 Container(
-                  width: 100,
+                  width: 200,
                   padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-                  child: Text(
-                    '192.168.1.',
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.grey,
-                    ),
-                  ),
-                ),
-                Container(
-                  width: 100,
-                  padding: EdgeInsets.zero,
                   child: TextField(
                     controller: manualIpController,
-                    keyboardType: TextInputType.number,
+                    keyboardType:
+                        TextInputType.numberWithOptions(decimal: true),
                     style: TextStyle(
                       fontSize: 20,
                       color: Colors.white,
+                    ),
+                    decoration: InputDecoration(
+                      hintText: '192.168.xxx.xxx',
+                      hintStyle: TextStyle(
+                        fontSize: 18,
+                        color: Colors.grey,
+                      ),
                     ),
                   ),
                 ),
@@ -91,7 +78,7 @@ class _LookForIpViewState extends State<LookForIpView> {
                     ':',
                     style: TextStyle(
                       fontSize: 18,
-                      color: Colors.grey,
+                      color: Colors.white,
                     ),
                   ),
                 ),
@@ -110,7 +97,7 @@ class _LookForIpViewState extends State<LookForIpView> {
                 ElevatedButton(
                   onPressed: () {
                     setState(() {
-                      foundIp = int.parse(manualIpController.text);
+                      theIp = manualIpController.text;
                       port = int.parse(portController.text);
                     });
                   },
@@ -122,6 +109,19 @@ class _LookForIpViewState extends State<LookForIpView> {
                 )
               ],
             ),
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  theIp = '';
+                });
+              },
+              style: ElevatedButton.styleFrom(minimumSize: Size(100, 150)),
+              child: Center(
+                child: Text(
+                  tr('retry_auto_find_server'),
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -130,19 +130,18 @@ class _LookForIpViewState extends State<LookForIpView> {
 
   @override
   Widget build(BuildContext context) {
-    FlutterLogs.logInfo("INFO", "ideckia", 'foundIp: $foundIp : $port');
-    if (foundIp == -2) {
+    Log.info('ip: $theIp / port: $port');
+    if (theIp == null) {
       return new Center(
         child: new CircularProgressIndicator(
           semanticsValue: tr('zerbitzari_bila'),
         ),
       );
-    } else if (foundIp == -1) {
+    } else if (theIp == IpFinder.NOT_FOUND) {
       return notFound();
     } else {
-      var url = 'ws://192.168.1.$foundIp:$port';
       return IdeckiaLayoutView(
-        channel: IOWebSocketChannel.connect(url),
+        channel: IOWebSocketChannel.connect('ws://$theIp:$port'),
         defaultWidget: notFound(),
       );
     }
