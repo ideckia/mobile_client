@@ -22,7 +22,7 @@ class IpFinder {
           }
           doCall(
               client,
-              'http://192.168.1.${i.toString()}:${port.toString()}/ping',
+              '192.168.1.${i.toString()}:${port.toString()}/ping',
               callback);
         }
     } finally {
@@ -35,7 +35,7 @@ class IpFinder {
 
   static void doCall(HttpClient client, String url, Function(String) callback) {
     try {
-      client.getUrl(Uri.parse(url)).then((HttpClientRequest request) {
+      client.getUrl(Uri.parse('http://$url')).then((HttpClientRequest request) {
         return request.close();
       }).catchError((error) {
         counter++;

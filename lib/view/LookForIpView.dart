@@ -112,7 +112,7 @@ class _LookForIpViewState extends State<LookForIpView> {
             ElevatedButton(
               onPressed: () {
                 setState(() {
-                  theIp = '';
+                  theIp = null;
                 });
               },
               style: ElevatedButton.styleFrom(minimumSize: Size(100, 150)),
