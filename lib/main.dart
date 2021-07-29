@@ -17,7 +17,7 @@ Future<void> main() async {
           Locale('fr')
         ],
         path:
-            'assets/translations', // <-- change the path of the translation files
+            'assets/translations',
         fallbackLocale: Locale('en'),
         child: Ideckia()),
   );
