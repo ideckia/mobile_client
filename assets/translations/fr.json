@@ -1,7 +1,8 @@
 {
-    "zerbitzari_bila": "Essayer de se connecter au serveur",
+    "looking_for_server": "Essayer de se connecter au serveur",
     "no_server_found_title": "Ne peut se connecter au serveur ",
     "retry_auto_find_server": "Essayez de trouver le serveur automatiquement ",
     "enter_ip": "Entrez l'IP ",
-    "manual_find_server": "Relier"
+    "manual_find_server": "Relier",
+	"no_data_received": "Aucune donnée recue."
 } 

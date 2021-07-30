@@ -29,7 +29,7 @@ class _LookForIpViewState extends State<LookForIpView> {
   @override
   void initState() {
     super.initState();
-    IpFinder.discover(port, setIp);
+    theIp = null;
     portController.text = port.toString();
   }
 
@@ -132,9 +132,10 @@ class _LookForIpViewState extends State<LookForIpView> {
   Widget build(BuildContext context) {
     Log.info('ip: $theIp / port: $port');
     if (theIp == null) {
+      IpFinder.discover(port, setIp);
       return new Center(
         child: new CircularProgressIndicator(
-          semanticsValue: tr('zerbitzari_bila'),
+          semanticsValue: tr('looking_for_server'),
         ),
       );
     } else if (theIp == IpFinder.NOT_FOUND) {

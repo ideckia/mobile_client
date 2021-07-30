@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:ideckia/Log.dart';
 import 'package:ideckia/model/IdeckiaLayout.dart';
 import 'package:ideckia/model/ItemState.dart';
 import 'package:ideckia/model/ServerMsg.dart';
@@ -9,9 +11,12 @@ import 'package:ideckia/view/ItemStateView.dart';
 import 'package:web_socket_channel/io.dart';
 
 class IdeckiaLayoutView extends StatelessWidget {
-  IdeckiaLayoutView(
-      {Key key, this.ideckiaLayout, this.channel, this.defaultWidget})
-      : super(key: key);
+  IdeckiaLayoutView({
+    Key key,
+    this.ideckiaLayout,
+    this.channel,
+    this.defaultWidget,
+  }) : super(key: key);
   final IdeckiaLayout ideckiaLayout;
   final IOWebSocketChannel channel;
   final Widget defaultWidget;
@@ -85,40 +90,48 @@ class IdeckiaLayoutView extends StatelessWidget {
     return rows;
   }
 
+  Widget noDataWidget(String text) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        vertical: 24.0,
+      ),
+      child: Text(
+        text,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: StreamBuilder(
           stream: channel.stream,
           builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-            switch (snapshot.connectionState) {
-              case ConnectionState.active:
-                ServerMsg serverMsg =
-                    ServerMsg.fromJson(jsonDecode(snapshot.data));
-                if (serverMsg.type == 'layout') {
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: createLayout(
-                      IdeckiaLayout.fromJson(serverMsg.data),
-                      context,
-                    ),
-                  );
-                }
-                return Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 24.0,
-                  ),
-                  child: Text(
-                    snapshot.hasData ? '${snapshot.data}' : '',
-                  ),
-                );
-              case ConnectionState.done:
-                return defaultWidget;
-              default:
-                return new Center(
-                  child: new CircularProgressIndicator(),
-                );
+            Log.info(
+                "Connection state: ${snapshot.connectionState} / hasData: ${snapshot.hasData} / hasError: ${snapshot.hasError}");
+            if (snapshot.hasError) {
+              return noDataWidget(snapshot.error.toString());
             }
+            
+            if (snapshot.connectionState == ConnectionState.done) {
+              return defaultWidget;
+            }
+
+            if (snapshot.hasData) {
+              ServerMsg serverMsg =
+                  ServerMsg.fromJson(jsonDecode(snapshot.data));
+              if (serverMsg != null && serverMsg.type == 'layout') {
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: createLayout(
+                    IdeckiaLayout.fromJson(serverMsg.data),
+                    context,
+                  ),
+                );
+              }
+            }
+
+            return noDataWidget(tr('no_data_received'));
           }),
     );
   }
