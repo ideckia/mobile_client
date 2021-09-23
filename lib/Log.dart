@@ -1,5 +1,9 @@
 
+import 'package:easy_localization/easy_localization.dart';
+
 class Log {
+  
+  static var text = '';
   
   static void info(String msg) {
     _log('INFO', msg);
@@ -10,6 +14,9 @@ class Log {
   }
   
   static void _log(String level, String msg) {
-    print('[$level] $msg');
+    var time = DateFormat('jms').format(DateTime.now());
+    var logText = '$time [$level] $msg';
+    text += '$logText\n';
+    print(logText);
   }
 }
