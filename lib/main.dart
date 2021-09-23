@@ -25,12 +25,11 @@ Future<void> main() async {
 }
 
 class Ideckia extends StatelessWidget {
-  // This widget is the root of your application.
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Ideckia',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.grey.shade700,
         primarySwatch: Colors.blue,

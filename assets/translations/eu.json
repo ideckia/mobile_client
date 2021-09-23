@@ -4,5 +4,6 @@
     "retry_auto_find_server": "Automatikoki kokektatzen saiatu",
     "enter_ip": "Sartu IPa",
     "manual_find_server": "Konektatu",
-	"no_data_received": "Ez da daturik jaso"
+	"no_data_received": "Ez da daturik jaso",
+	"reset_connection": "Konexioa berrezarri"
 }

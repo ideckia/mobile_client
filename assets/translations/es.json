@@ -4,5 +4,6 @@
     "retry_auto_find_server": "Intentar conectar automáticamente",
     "enter_ip": "Inserta IP",
     "manual_find_server": "Conectar",
-	"no_data_received": "No se ha recibido ningún dato."
+	"no_data_received": "No se ha recibido ningún dato",
+	"reset_connection": "Reiniciar conexión"
 }

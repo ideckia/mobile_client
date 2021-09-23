@@ -16,11 +16,13 @@ class LookForIpView extends StatefulWidget {
 class _LookForIpViewState extends State<LookForIpView> {
   String theIp;
   int port = 8888;
+  int tapCount = 0;
+  bool showLog = false;
   final manualIpController = TextEditingController();
   final portController = TextEditingController();
 
   void setIp(String foundIp) {
-    Log.info('setIp: $foundIp');
+    Log.info('ip: $foundIp / port: $port');
     setState(() => {
           theIp = foundIp,
         });
@@ -128,29 +130,82 @@ class _LookForIpViewState extends State<LookForIpView> {
     );
   }
 
+  Widget logView() {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          tr('log'),
+        ),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.update),
+            tooltip: tr('reset_connection'),
+            onPressed: () {
+              Log.info('resetting connection');
+              setState(() {
+                showLog = false;
+                theIp = null;
+              });
+            },
+          )
+        ],
+      ),
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        reverse: true,
+        child: Text(
+          Log.text,
+          style: TextStyle(
+            fontSize: 12,
+            color: Colors.white,
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    Log.info('ip: $theIp / port: $port');
-    if (theIp == null) {
+    var retWidget;
+
+    if (showLog) {
+      retWidget = logView();
+    } else if (theIp == null) {
       IpFinder.discover(port, setIp);
-      return new Center(
+      retWidget = new Center(
         child: new CircularProgressIndicator(
           semanticsValue: tr('looking_for_server'),
         ),
       );
     } else if (theIp == IpFinder.NOT_FOUND) {
-      return notFound();
+      retWidget = notFound();
     } else {
-      return IdeckiaLayoutView(
+      retWidget = IdeckiaLayoutView(
         channel: IOWebSocketChannel.connect('ws://$theIp:$port'),
         defaultWidget: notFound(),
       );
     }
+
+    return Listener(
+      onPointerDown: (_) {
+        tapCount++;
+        if (tapCount >= 3) {
+          setState(() {
+            showLog = !showLog;
+          });
+        }
+      },
+      onPointerUp: (_) {
+        tapCount--;
+      },
+      child: retWidget,
+    );
   } // build
 
   @override
   void dispose() {
     manualIpController.dispose();
+    portController.dispose();
     super.dispose();
   }
 }
