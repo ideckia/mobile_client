@@ -1,4 +1,4 @@
-package com.example.ideckia
+package eus.ideckia
 
 import io.flutter.embedding.android.FlutterActivity
 
