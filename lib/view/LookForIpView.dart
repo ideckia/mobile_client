@@ -15,24 +15,28 @@ class LookForIpView extends StatefulWidget {
 
 class _LookForIpViewState extends State<LookForIpView> {
   String theIp;
-  int port = 8888;
+  int thePort;
   int tapCount = 0;
   bool showLog = false;
   final manualIpController = TextEditingController();
-  final portController = TextEditingController();
+  final manualPortController = TextEditingController();
+  final autoPortController = TextEditingController();
 
-  void setIp(String foundIp) {
+  void setIp(String foundIp, int port) {
     Log.info('ip: $foundIp / port: $port');
-    setState(() => {
-          theIp = foundIp,
-        });
+    setState(() {
+      theIp = foundIp;
+      thePort = port;
+    });
   }
 
   @override
   void initState() {
     super.initState();
     theIp = null;
-    portController.text = port.toString();
+    thePort = 8888;
+    manualPortController.text = thePort.toString();
+    autoPortController.text = thePort.toString();
   }
 
   Widget notFound() {
@@ -88,7 +92,7 @@ class _LookForIpViewState extends State<LookForIpView> {
                   width: 100,
                   padding: EdgeInsets.zero,
                   child: TextField(
-                    controller: portController,
+                    controller: manualPortController,
                     keyboardType: TextInputType.number,
                     style: TextStyle(
                       fontSize: 20,
@@ -100,7 +104,7 @@ class _LookForIpViewState extends State<LookForIpView> {
                   onPressed: () {
                     setState(() {
                       theIp = manualIpController.text;
-                      port = int.parse(portController.text);
+                      thePort = int.parse(manualPortController.text);
                     });
                   },
                   child: Center(
@@ -111,18 +115,66 @@ class _LookForIpViewState extends State<LookForIpView> {
                 )
               ],
             ),
-            ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  theIp = null;
-                });
-              },
-              style: ElevatedButton.styleFrom(minimumSize: Size(100, 150)),
-              child: Center(
-                child: Text(
-                  tr('retry_auto_find_server'),
+            Divider(
+              height: 50,
+            ),
+            Row(
+              children: <Widget>[
+                Text(
+                  tr('auto_ip'),
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.white,
+                  ),
                 ),
-              ),
+                Container(
+                  width: 200,
+                  padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                  child: Text(
+                    '192.168.1.0-255',
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
+                Container(
+                  width: 8,
+                  padding: EdgeInsets.zero,
+                  child: Text(
+                    ':',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                Container(
+                  width: 100,
+                  padding: EdgeInsets.zero,
+                  child: TextField(
+                    controller: autoPortController,
+                    keyboardType: TextInputType.number,
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      theIp = null;
+                      thePort = int.parse(autoPortController.text);
+                    });
+                  },
+                  child: Center(
+                    child: Text(
+                      tr('try_auto_find_server'),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
@@ -171,7 +223,7 @@ class _LookForIpViewState extends State<LookForIpView> {
     if (showLog) {
       retWidget = logView();
     } else if (theIp == null) {
-      IpFinder.discover(port, setIp);
+      IpFinder.discover(thePort, setIp);
       retWidget = new Center(
         child: new CircularProgressIndicator(
           semanticsValue: tr('looking_for_server'),
@@ -181,7 +233,7 @@ class _LookForIpViewState extends State<LookForIpView> {
       retWidget = notFound();
     } else {
       retWidget = IdeckiaLayoutView(
-        channel: IOWebSocketChannel.connect('ws://$theIp:$port'),
+        channel: IOWebSocketChannel.connect('ws://$theIp:$thePort'),
         defaultWidget: notFound(),
       );
     }
@@ -205,7 +257,8 @@ class _LookForIpViewState extends State<LookForIpView> {
   @override
   void dispose() {
     manualIpController.dispose();
-    portController.dispose();
+    manualPortController.dispose();
+    autoPortController.dispose();
     super.dispose();
   }
 }
