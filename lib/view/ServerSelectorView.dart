@@ -26,6 +26,8 @@ class ServerSelectorView extends StatelessWidget {
           var server = servers[index];
           return ListTile(
             title: Text(server.name),
+            subtitle: Text(server.ip),
+            tileColor: Colors.blueGrey,
             onTap: () {
               Log.info('Connecting to ' + server.name);
               onSelected(server.ip);
