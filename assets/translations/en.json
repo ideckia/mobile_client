@@ -6,5 +6,6 @@
 	"auto_ip": "Look for IP",
 	"manual_find_server": "Connect",
 	"no_data_received": "No data received",
-	"reset_connection": "Reset connection"
+	"reset_connection": "Reset connection",
+	"servers": "Servers"
 }

@@ -1,45 +1,20 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:ideckia/IpFinder.dart';
-import 'package:web_socket_channel/io.dart';
-import 'package:ideckia/Log.dart';
 
-import 'IdeckiaLayoutView.dart';
-
-class LookForIpView extends StatefulWidget {
-  LookForIpView({Key key}) : super(key: key);
-  //
-  @override
-  _LookForIpViewState createState() => _LookForIpViewState();
-}
-
-class _LookForIpViewState extends State<LookForIpView> {
-  String theIp;
-  int thePort;
-  int tapCount = 0;
-  bool showLog = false;
+class ServerNotFoundView extends StatelessWidget {
   final manualIpController = TextEditingController();
   final manualPortController = TextEditingController();
   final autoPortController = TextEditingController();
-
-  void setIp(String foundIp, int port) {
-    Log.info('ip: $foundIp / port: $port');
-    setState(() {
-      theIp = foundIp;
-      thePort = port;
-    });
-  }
+  ServerNotFoundView({
+    Key key,
+    this.port,
+    this.callback,
+  }) : super(key: key);
+  final int port;
+  final Function(String, int) callback;
 
   @override
-  void initState() {
-    super.initState();
-    theIp = null;
-    thePort = 8888;
-    manualPortController.text = thePort.toString();
-    autoPortController.text = thePort.toString();
-  }
-
-  Widget notFound() {
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(tr('no_server_found_title')),
@@ -102,10 +77,10 @@ class _LookForIpViewState extends State<LookForIpView> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    setState(() {
-                      theIp = manualIpController.text;
-                      thePort = int.parse(manualPortController.text);
-                    });
+                    doSelect(
+                      manualIpController.text,
+                      int.parse(manualPortController.text),
+                    );
                   },
                   child: Center(
                     child: Text(
@@ -163,10 +138,10 @@ class _LookForIpViewState extends State<LookForIpView> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    setState(() {
-                      theIp = null;
-                      thePort = int.parse(autoPortController.text);
-                    });
+                    doSelect(
+                      null,
+                      int.parse(autoPortController.text),
+                    );
                   },
                   child: Center(
                     child: Text(
@@ -182,83 +157,11 @@ class _LookForIpViewState extends State<LookForIpView> {
     );
   }
 
-  Widget logView() {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          tr('log'),
-        ),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.update),
-            tooltip: tr('reset_connection'),
-            onPressed: () {
-              Log.info('resetting connection');
-              setState(() {
-                showLog = false;
-                theIp = null;
-              });
-            },
-          )
-        ],
-      ),
-      body: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        reverse: true,
-        child: Text(
-          Log.text,
-          style: TextStyle(
-            fontSize: 12,
-            color: Colors.white,
-          ),
-        ),
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    var retWidget;
-
-    if (showLog) {
-      retWidget = logView();
-    } else if (theIp == null) {
-      IpFinder.discover(thePort, setIp);
-      retWidget = new Center(
-        child: new CircularProgressIndicator(
-          semanticsValue: tr('looking_for_server'),
-        ),
-      );
-    } else if (theIp == IpFinder.NOT_FOUND) {
-      retWidget = notFound();
-    } else {
-      retWidget = IdeckiaLayoutView(
-        channel: IOWebSocketChannel.connect('ws://$theIp:$thePort'),
-        defaultWidget: notFound(),
-      );
-    }
-
-    return Listener(
-      onPointerDown: (_) {
-        tapCount++;
-        if (tapCount >= 3) {
-          setState(() {
-            showLog = !showLog;
-          });
-        }
-      },
-      onPointerUp: (_) {
-        tapCount--;
-      },
-      child: retWidget,
-    );
-  } // build
-
-  @override
-  void dispose() {
+  void doSelect(String ip, int port) {
     manualIpController.dispose();
     manualPortController.dispose();
     autoPortController.dispose();
-    super.dispose();
+
+    callback(ip, port);
   }
 }

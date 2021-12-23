@@ -6,5 +6,6 @@
 	"auto_ip": "IPa bilatu",
 	"manual_find_server": "Konektatu",
 	"no_data_received": "Ez da daturik jaso",
-	"reset_connection": "Konexioa berrezarri"
+	"reset_connection": "Konexioa berrezarri",
+	"servers": "Zerbitzariak"
 }
