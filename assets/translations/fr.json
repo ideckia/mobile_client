@@ -6,5 +6,6 @@
 	"auto_ip": "Rechercher le IP",
 	"manual_find_server": "Relier",
 	"no_data_received": "Aucune donnée recue",
-	"reset_connection": "Réinitialiser la connexion"
+	"reset_connection": "Réinitialiser la connexion",
+	"servers": "Serveurs"
 }
