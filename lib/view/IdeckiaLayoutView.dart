@@ -53,10 +53,10 @@ class IdeckiaLayoutView extends StatelessWidget {
     int colCount = ideckiaLayout.columns;
     int rowCount = ideckiaLayout.rows;
 
-    var bWidth = width / rowCount;
-    var bHeight = height / colCount;
+    var bWidth = width / colCount;
+    var bHeight = height / rowCount;
 
-    final buttonSize = min(bWidth, bHeight);
+    final buttonSize = min(bWidth, bHeight) * .75;
     final radius = buttonSize / 3;
 
     List<Widget> rows = [];
@@ -112,7 +112,7 @@ class IdeckiaLayoutView extends StatelessWidget {
             if (snapshot.hasError) {
               return noDataWidget(snapshot.error.toString());
             }
-            
+
             if (snapshot.connectionState == ConnectionState.done) {
               return defaultWidget;
             }

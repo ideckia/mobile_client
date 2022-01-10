@@ -15,6 +15,8 @@ class ServerNotFoundView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    manualPortController.text = port.toString();
+    autoPortController.text = port.toString();
     return Scaffold(
       appBar: AppBar(
         title: Text(tr('no_server_found_title')),
