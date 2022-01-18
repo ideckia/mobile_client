@@ -31,11 +31,19 @@ class _LookForServerViewState extends State<LookForServerView> {
   int tapCount = 0;
   bool showLog = false;
   List<Server> foundServers;
+  final manualIpController = TextEditingController();
+  final manualPortController = TextEditingController();
+  final autoPortController = TextEditingController();
 
   void connectHost(String ip, int port) {
-    Log.info('ip: $ip / port: $port');
+    Log.info('Connecting to IP: $ip / port: $port');
+
+    final newState = (ip == null) ? Status.searching : Status.single_found;
+
+    manualPortController.text = port.toString();
+    autoPortController.text = port.toString();
     setState(() {
-      status = Status.single_found;
+      status = newState;
       theIp = ip;
       thePort = port;
     });
@@ -68,6 +76,15 @@ class _LookForServerViewState extends State<LookForServerView> {
     });
   }
 
+  void toInsertIPFromLogs() {
+    setState(() {
+      status = Status.not_found;
+      tapCount = 0;
+      showLog = false;
+      theIp = null;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -81,7 +98,10 @@ class _LookForServerViewState extends State<LookForServerView> {
     var retWidget;
 
     if (showLog) {
-      retWidget = LogView(reload: reloadFromLogs);
+      retWidget = LogView(
+        toInsertIP: toInsertIPFromLogs,
+        reload: reloadFromLogs,
+      );
     } else if (status == Status.searching) {
       ServerFinder.discover(thePort).then(serversFound);
       retWidget = new Center(
@@ -92,6 +112,9 @@ class _LookForServerViewState extends State<LookForServerView> {
     } else if (status == Status.not_found) {
       retWidget = new ServerNotFoundView(
         port: thePort,
+        manualIpController: manualIpController,
+        manualPortController: manualPortController,
+        autoPortController: autoPortController,
         callback: connectHost,
       );
     } else if (status == Status.multiple_found) {
@@ -104,6 +127,9 @@ class _LookForServerViewState extends State<LookForServerView> {
         channel: IOWebSocketChannel.connect('ws://$theIp:$thePort'),
         defaultWidget: new ServerNotFoundView(
           port: thePort,
+          manualIpController: manualIpController,
+          manualPortController: manualPortController,
+          autoPortController: autoPortController,
           callback: connectHost,
         ),
       );

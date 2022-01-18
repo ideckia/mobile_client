@@ -2,10 +2,11 @@
 	"looking_for_server": "Trying to connect to the server",
 	"no_server_found_title": "Could not connect to the server",
 	"try_auto_find_server": "Find automatically",
-	"enter_ip": "Enter IP",
+	"insert_ip": "Insert IP",
 	"auto_ip": "Look for IP",
 	"manual_find_server": "Connect",
 	"no_data_received": "No data received",
 	"reset_connection": "Reset connection",
-	"servers": "Servers"
+	"servers": "Servers",
+	"insert_ip_view": "Insert IP view"
 }

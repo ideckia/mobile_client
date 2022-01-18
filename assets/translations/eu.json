@@ -2,10 +2,11 @@
 	"looking_for_server": "Zerbitzariarekin konektatzen saiatzen",
 	"no_server_found_title": "Ezin izan da zerbitzariarekin konektatu",
 	"try_auto_find_server": "Automatikoki bilatu",
-	"enter_ip": "Sartu IPa",
+	"insert_ip": "Sartu IPa",
 	"auto_ip": "IPa bilatu",
 	"manual_find_server": "Konektatu",
 	"no_data_received": "Ez da daturik jaso",
 	"reset_connection": "Konexioa berrezarri",
-	"servers": "Zerbitzariak"
+	"servers": "Zerbitzariak",
+	"insert_ip_view": "IPa sartzeko bista"
 }

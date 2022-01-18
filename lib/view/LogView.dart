@@ -6,8 +6,10 @@ import '../Log.dart';
 class LogView extends StatelessWidget {
   LogView({
     Key key,
+    this.toInsertIP,
     this.reload,
   }) : super(key: key);
+  final Function toInsertIP;
   final Function reload;
 
   @override
@@ -19,7 +21,14 @@ class LogView extends StatelessWidget {
         ),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.update),
+            icon: Icon(Icons.dehaze),
+            tooltip: tr('insert_ip_view'),
+            onPressed: () {
+              toInsertIP();
+            },
+          ),
+          IconButton(
+            icon: Icon(Icons.autorenew),
             tooltip: tr('reset_connection'),
             onPressed: () {
               Log.info('resetting connection');
