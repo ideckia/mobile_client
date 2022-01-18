@@ -1,16 +1,10 @@
 # ideckia
 
-A new Flutter project.
+Mobile client for [ideckia](http://github.com/ideckia/ideckia). This app only shows the server state and executes actions in the server when clicked elements. Really nothing happens in this app, basically is a remote control.
 
-## Getting Started
+## Log view
 
-This project is a starting point for a Flutter application.
+Touch the screen with three fingers to show the log. In this view there are to buttons in the top-right corner:
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+* Go to insert the IP manually (![](https://cdn3.iconfinder.com/data/icons/google-material-design-icons/48/ic_dehaze_48px-48.png) button).
+* Reload the app (![](https://cdn3.iconfinder.com/data/icons/google-material-design-icons/48/ic_autorenew_48px-48.png) button).

@@ -2,21 +2,22 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class ServerNotFoundView extends StatelessWidget {
-  final manualIpController = TextEditingController();
-  final manualPortController = TextEditingController();
-  final autoPortController = TextEditingController();
   ServerNotFoundView({
     Key key,
     this.port,
+    this.manualIpController,
+    this.manualPortController,
+    this.autoPortController,
     this.callback,
   }) : super(key: key);
   final int port;
+  final manualIpController;
+  final manualPortController;
+  final autoPortController;
   final Function(String, int) callback;
 
   @override
   Widget build(BuildContext context) {
-    manualPortController.text = port.toString();
-    autoPortController.text = port.toString();
     return Scaffold(
       appBar: AppBar(
         title: Text(tr('no_server_found_title')),
@@ -28,7 +29,7 @@ class ServerNotFoundView extends StatelessWidget {
             Row(
               children: <Widget>[
                 Text(
-                  tr('enter_ip'),
+                  tr('insert_ip'),
                   style: TextStyle(
                     fontSize: 20,
                     color: Colors.white,
@@ -79,7 +80,7 @@ class ServerNotFoundView extends StatelessWidget {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    doSelect(
+                    callback(
                       manualIpController.text,
                       int.parse(manualPortController.text),
                     );
@@ -140,7 +141,7 @@ class ServerNotFoundView extends StatelessWidget {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    doSelect(
+                    callback(
                       null,
                       int.parse(autoPortController.text),
                     );
@@ -157,13 +158,5 @@ class ServerNotFoundView extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  void doSelect(String ip, int port) {
-    manualIpController.dispose();
-    manualPortController.dispose();
-    autoPortController.dispose();
-
-    callback(ip, port);
   }
 }
