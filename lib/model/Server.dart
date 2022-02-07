@@ -4,7 +4,7 @@ class Server {
 
   Server(this.name, this.ip);
 
-  static final String NOT_FOUND = "not_found";
+  static const String NOT_FOUND = "not_found";
 
   factory Server.notFound() {
     return Server(

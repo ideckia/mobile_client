@@ -107,7 +107,7 @@ class IdeckiaLayoutView extends StatelessWidget {
       body: StreamBuilder(
           stream: channel.stream,
           builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-            Log.info(
+            Log.debug(
                 "Connection state: ${snapshot.connectionState} / hasData: ${snapshot.hasData} / hasError: ${snapshot.hasError}");
             if (snapshot.hasError) {
               return noDataWidget(snapshot.error.toString());

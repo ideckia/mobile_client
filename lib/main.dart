@@ -29,12 +29,35 @@ Future<void> main() async {
 class Ideckia extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var textColor = Colors.yellowAccent;
     return MaterialApp(
       title: 'Ideckia',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        brightness: Brightness.dark,
         scaffoldBackgroundColor: Colors.grey.shade700,
-        primarySwatch: Colors.blue,
+        primaryColor: Colors.grey,
+        primarySwatch: Colors.grey,
+        fontFamily: 'Ubuntu',
+        primaryTextTheme: TextTheme(
+          headline6: TextStyle(
+            color: textColor,
+          ),
+        ),
+        primaryIconTheme: const IconThemeData.fallback().copyWith(
+          color: textColor,
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            onPrimary: textColor,
+          ),
+        ),
+        textTheme: TextTheme(
+          bodyText1: TextStyle(),
+          bodyText2: TextStyle(),
+        ).apply(
+          bodyColor: textColor,
+        ),
       ),
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
