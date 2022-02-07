@@ -138,7 +138,6 @@ class _LookForServerViewState extends State<LookForServerView> {
     return Listener(
       onPointerDown: (_) {
         tapCount++;
-        Log.info('tapDown: $tapCount');
         if (tapCount >= 3) {
           setState(() {
             tapCount = 0;
@@ -147,7 +146,6 @@ class _LookForServerViewState extends State<LookForServerView> {
         }
       },
       onPointerUp: (_) {
-        Log.info('tapUp: $tapCount');
         if (tapCount > 0) {
           tapCount--;
         }
