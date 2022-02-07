@@ -18,8 +18,9 @@ class ServerNotFoundView extends StatelessWidget {
 
   Widget createIpColumn(
       title, ipLabel, ipController, portController, buttonLabel) {
+    var shadeColor = Colors.yellowAccent.shade100;
     return Expanded(
-      flex: 100,
+      flex: 200,
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -43,7 +44,6 @@ class ServerNotFoundView extends StatelessWidget {
                     ipLabel,
                     style: TextStyle(
                       fontSize: 20,
-                      color: Colors.white,
                     ),
                   ),
                   Expanded(flex: 1, child: Container()),
@@ -56,13 +56,12 @@ class ServerNotFoundView extends StatelessWidget {
                                 TextInputType.numberWithOptions(decimal: true),
                             style: TextStyle(
                               fontSize: 20,
-                              color: Colors.white,
                             ),
                             decoration: InputDecoration(
                               hintText: '192.168.xxx.xxx',
                               hintStyle: TextStyle(
                                 fontSize: 18,
-                                color: Colors.grey,
+                                color: shadeColor,
                               ),
                             ),
                           ),
@@ -71,7 +70,7 @@ class ServerNotFoundView extends StatelessWidget {
                           '192.168.1.0-255',
                           style: TextStyle(
                             fontSize: 20,
-                            color: Colors.grey,
+                            color: shadeColor,
                           ),
                         ),
                 ],
@@ -85,7 +84,6 @@ class ServerNotFoundView extends StatelessWidget {
                     tr('insert_port'),
                     style: TextStyle(
                       fontSize: 20,
-                      color: Colors.white,
                     ),
                   ),
                   Expanded(flex: 1, child: Container()),
@@ -96,7 +94,7 @@ class ServerNotFoundView extends StatelessWidget {
                       keyboardType: TextInputType.number,
                       style: TextStyle(
                         fontSize: 20,
-                        color: Colors.white,
+                        color: shadeColor,
                       ),
                     ),
                   ),
@@ -145,9 +143,9 @@ class ServerNotFoundView extends StatelessWidget {
             tr('manual_find_server'),
           ),
           Expanded(
-            flex: 2,
+            flex: 1,
             child: Container(
-              color: Colors.black,
+              color: Colors.grey,
             ),
           ),
           createIpColumn(

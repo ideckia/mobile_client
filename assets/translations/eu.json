@@ -1,10 +1,11 @@
 {
 	"looking_for_server": "Zerbitzariarekin konektatzen saiatzen",
 	"no_server_found_title": "Ezin izan da zerbitzariarekin konektatu",
-	"try_auto_find_server": "Automatikoki bilatu",
+	"try_auto_find_server": "Bilatu eta konektatu",
 	"eskuz": "ESKUZ",
 	"automatikoa": "AUTOMATIKOA",
-	"insert_ip": "Sartu IPa",
+	"insert_ip": "Zerbitzari IPa:",
+	"insert_port": "Zerbitzari portua:",
 	"auto_ip": "IP tartea",
 	"manual_find_server": "Konektatu",
 	"no_data_received": "Ez da daturik jaso",

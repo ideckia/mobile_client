@@ -44,7 +44,6 @@ class LogView extends StatelessWidget {
           Log.text,
           style: TextStyle(
             fontSize: 12,
-            color: Colors.white,
           ),
         ),
       ),

@@ -1,10 +1,11 @@
 {
 	"looking_for_server": "Essayer de se connecter au serveur",
 	"no_server_found_title": "Ne peut se connecter au serveur",
-	"try_auto_find_server": "Rechercher automatiquement",
+	"try_auto_find_server": "Trouver et se connecter",
 	"eskuz": "MANUEL",
 	"automatikoa": "AUTOMATIQUE",
-	"insert_ip": "Entrez l'IP ",
+	"insert_ip": "IP du serveur:",
+	"insert_port": "Port du serveur:",
 	"auto_ip": "Plage ip",
 	"manual_find_server": "Relier",
 	"no_data_received": "Aucune donnée recue",
