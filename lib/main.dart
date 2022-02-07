@@ -35,6 +35,7 @@ class Ideckia extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.grey.shade700,
         primarySwatch: Colors.blue,
+        fontFamily: 'Ubuntu',
       ),
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,

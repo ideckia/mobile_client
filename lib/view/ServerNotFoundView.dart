@@ -16,146 +16,148 @@ class ServerNotFoundView extends StatelessWidget {
   final autoPortController;
   final Function(String, int) callback;
 
+  Widget createIpColumn(
+      title, ipLabel, ipController, portController, buttonLabel) {
+    return Expanded(
+      flex: 100,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            Expanded(
+              flex: 1,
+              child: Center(
+                child: Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 25,
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 2,
+              child: Row(
+                children: [
+                  Text(
+                    ipLabel,
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.white,
+                    ),
+                  ),
+                  Expanded(flex: 1, child: Container()),
+                  (ipController != null)
+                      ? Expanded(
+                          flex: 20,
+                          child: TextField(
+                            controller: ipController,
+                            keyboardType:
+                                TextInputType.numberWithOptions(decimal: true),
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.white,
+                            ),
+                            decoration: InputDecoration(
+                              hintText: '192.168.xxx.xxx',
+                              hintStyle: TextStyle(
+                                fontSize: 18,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ),
+                        )
+                      : Text(
+                          '192.168.1.0-255',
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.grey,
+                          ),
+                        ),
+                ],
+              ),
+            ),
+            Expanded(
+              flex: 2,
+              child: Row(
+                children: [
+                  Text(
+                    tr('insert_port'),
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.white,
+                    ),
+                  ),
+                  Expanded(flex: 1, child: Container()),
+                  Expanded(
+                    flex: 20,
+                    child: TextField(
+                      controller: portController,
+                      keyboardType: TextInputType.number,
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(flex: 1, child: Container()),
+            Expanded(
+              flex: 3,
+              child: ElevatedButton(
+                onPressed: () {
+                  callback(
+                    (ipController == null) ? null : ipController.text,
+                    int.parse(portController.text),
+                  );
+                },
+                child: Center(
+                  child: Text(
+                    buttonLabel,
+                    style: TextStyle(
+                      fontSize: 25,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(tr('no_server_found_title')),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Row(
-              children: <Widget>[
-                Text(
-                  tr('insert_ip'),
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.white,
-                  ),
-                ),
-                Container(
-                  width: 200,
-                  padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-                  child: TextField(
-                    controller: manualIpController,
-                    keyboardType:
-                        TextInputType.numberWithOptions(decimal: true),
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.white,
-                    ),
-                    decoration: InputDecoration(
-                      hintText: '192.168.xxx.xxx',
-                      hintStyle: TextStyle(
-                        fontSize: 18,
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  width: 8,
-                  padding: EdgeInsets.zero,
-                  child: Text(
-                    ':',
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-                Container(
-                  width: 100,
-                  padding: EdgeInsets.zero,
-                  child: TextField(
-                    controller: manualPortController,
-                    keyboardType: TextInputType.number,
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    callback(
-                      manualIpController.text,
-                      int.parse(manualPortController.text),
-                    );
-                  },
-                  child: Center(
-                    child: Text(
-                      tr('manual_find_server'),
-                    ),
-                  ),
-                )
-              ],
+      body: Row(
+        children: [
+          createIpColumn(
+            tr('eskuz'),
+            tr('insert_ip'),
+            manualIpController,
+            manualPortController,
+            tr('manual_find_server'),
+          ),
+          Expanded(
+            flex: 2,
+            child: Container(
+              color: Colors.black,
             ),
-            Divider(
-              height: 50,
-            ),
-            Row(
-              children: <Widget>[
-                Text(
-                  tr('auto_ip'),
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.white,
-                  ),
-                ),
-                Container(
-                  width: 200,
-                  padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-                  child: Text(
-                    '192.168.1.0-255',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.grey,
-                    ),
-                  ),
-                ),
-                Container(
-                  width: 8,
-                  padding: EdgeInsets.zero,
-                  child: Text(
-                    ':',
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-                Container(
-                  width: 100,
-                  padding: EdgeInsets.zero,
-                  child: TextField(
-                    controller: autoPortController,
-                    keyboardType: TextInputType.number,
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    callback(
-                      null,
-                      int.parse(autoPortController.text),
-                    );
-                  },
-                  child: Center(
-                    child: Text(
-                      tr('try_auto_find_server'),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
+          ),
+          createIpColumn(
+            tr('automatikoa'),
+            tr('auto_ip'),
+            null,
+            autoPortController,
+            tr('try_auto_find_server'),
+          ),
+        ],
       ),
     );
   }
