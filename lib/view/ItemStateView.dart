@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ideckia/model/ItemState.dart';
+import 'package:simple_rich_text/simple_rich_text.dart';
 
 class ItemStateView extends StatelessWidget {
   ItemStateView({
@@ -41,7 +42,7 @@ class ItemStateView extends StatelessWidget {
         width: buttonSize,
         child: Align(
           alignment: Alignment.bottomCenter,
-          child: Text(
+          child: SimpleRichText(
             itemState.text,
             style: TextStyle(
               fontSize: itemState.textSize,

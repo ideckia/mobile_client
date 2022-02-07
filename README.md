@@ -8,3 +8,13 @@ Touch the screen with three fingers to show the log. In this view there are to b
 
 * Go to insert the IP manually (![](https://cdn3.iconfinder.com/data/icons/google-material-design-icons/48/ic_dehaze_48px-48.png) button).
 * Reload the app (![](https://cdn3.iconfinder.com/data/icons/google-material-design-icons/48/ic_autorenew_48px-48.png) button).
+
+## SimpleRichText
+
+[SimpleRichText](https://pub.dev/packages/simple_rich_text) is used to render the item text. You can send thing like the following to the item.
+
+* `*_/bold, underlined and italicized*_/`
+* `*{color:red}bold*`
+* `_{color:green}underlined_`
+* `/{color:brown}italicized/)`
+* `different ~{fontSize:10}font~ size`

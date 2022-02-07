@@ -32,6 +32,7 @@ dependencies:
   web_socket_channel: ^2.0.0
   easy_localization: ^3.0.0
   keep_screen_on: ^2.0.0
+  simple_rich_text: ^2.0.49
 
 dev_dependencies:
   flutter_test:
