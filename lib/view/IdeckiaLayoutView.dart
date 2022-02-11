@@ -48,7 +48,16 @@ class IdeckiaLayoutView extends StatelessWidget {
 
     var mediaQuery = MediaQuery.of(context);
     var screenSize = mediaQuery.size;
+
+    var showFixedItems = ideckiaLayout.fixedItems.length > 0;
+
+    var itemsPercentage = .85;
+    var fixedPercentage = .15;
+
     var width = screenSize.width;
+    var fixedWidth = width * fixedPercentage;
+    if (showFixedItems) width *= itemsPercentage;
+
     var height = screenSize.height;
     int colCount = ideckiaLayout.columns;
     int rowCount = ideckiaLayout.rows;
@@ -58,6 +67,20 @@ class IdeckiaLayoutView extends StatelessWidget {
 
     final buttonSize = min(bWidth, bHeight) * .75;
     final radius = buttonSize / 3;
+
+    final fixedButtonSize = fixedWidth * .75;
+    final fixedRadius = fixedButtonSize / 3;
+
+    List<Widget> fixedColumnChildren = [];
+    for (var fixedItem in ideckiaLayout.fixedItems) {
+      fixedColumnChildren.add(ItemStateView(
+        itemState: fixedItem,
+        onClick: onItemClick,
+        onLongPress: onItemLongPress,
+        buttonSize: fixedButtonSize,
+        buttonRadius: fixedRadius,
+      ));
+    }
 
     List<Widget> rows = [];
     List<Widget> columns;
@@ -73,6 +96,7 @@ class IdeckiaLayoutView extends StatelessWidget {
         } else {
           itemState = items[itemIndex];
         }
+
         columns.add(ItemStateView(
           itemState: itemState,
           onClick: onItemClick,
@@ -87,7 +111,48 @@ class IdeckiaLayoutView extends StatelessWidget {
       ));
     }
 
-    return rows;
+    List<Widget> retChildren = [
+      Expanded(
+        flex: (1000 * itemsPercentage).round(),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: rows,
+        ),
+      ),
+    ];
+
+    if (showFixedItems) {
+      retChildren.add(
+        Expanded(
+          flex: 2,
+          child: Container(
+            color: Colors.yellowAccent.shade100,
+          ),
+        ),
+      );
+      retChildren.add(
+        Expanded(
+          flex: (1000 * fixedPercentage).round(),
+          child: Container(
+            color: Colors.grey.shade800,
+            child: ListView(
+              padding: const EdgeInsets.all(5),
+              scrollDirection: Axis.vertical,
+              children: fixedColumnChildren
+                  .map(
+                    (e) => Padding(
+                      padding: const EdgeInsets.only(top: 5),
+                      child: e,
+                    ),
+                  )
+                  .toList(),
+            ),
+          ),
+        ),
+      );
+    }
+
+    return retChildren;
   }
 
   Widget noDataWidget(String text) {
@@ -121,7 +186,7 @@ class IdeckiaLayoutView extends StatelessWidget {
               ServerMsg serverMsg =
                   ServerMsg.fromJson(jsonDecode(snapshot.data));
               if (serverMsg != null && serverMsg.type == 'layout') {
-                return Column(
+                return Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: createLayout(
                     IdeckiaLayout.fromJson(serverMsg.data),
