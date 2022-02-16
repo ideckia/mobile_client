@@ -101,7 +101,7 @@ class ItemStateView extends StatelessWidget {
         child: Align(
           alignment: Alignment.bottomCenter,
           child: SimpleRichText(
-            createSimpleRichTextString(itemState.text),
+            createSimpleRichTextString(itemState.text.replaceAll('/', '\\/')),
             style: TextStyle(
               fontSize: itemState.textSize,
               color: itemState.textColor,
