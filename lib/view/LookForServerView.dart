@@ -25,15 +25,19 @@ enum Status {
 }
 
 class _LookForServerViewState extends State<LookForServerView> {
+  static const int DEFAULT_PORT = 8888;
+
   String theIp;
   Status status = Status.searching;
   int thePort;
   int tapCount = 0;
   bool showLog = false;
   List<Server> foundServers;
-  final manualIpController = TextEditingController();
-  final manualPortController = TextEditingController();
-  final autoPortController = TextEditingController();
+  final manualIpController = TextEditingController(text: '192.168.');
+  final manualPortController =
+      TextEditingController(text: DEFAULT_PORT.toString());
+  final autoPortController =
+      TextEditingController(text: DEFAULT_PORT.toString());
 
   void connectHost(String ip, int port) {
     Log.info('Connecting to IP: $ip / port: $port');
@@ -90,7 +94,7 @@ class _LookForServerViewState extends State<LookForServerView> {
     super.initState();
     status = Status.searching;
     theIp = null;
-    thePort = 8888;
+    thePort = DEFAULT_PORT;
   }
 
   @override

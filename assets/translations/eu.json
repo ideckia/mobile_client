@@ -11,5 +11,7 @@
 	"no_data_received": "Ez da daturik jaso",
 	"reset_connection": "Konexioa berrezarri",
 	"servers": "Zerbitzariak",
-	"insert_ip_view": "IPa sartzeko bista"
+	"insert_ip_view": "IPa sartzeko bista",
+	"mandatory_ip": "IPa derrigorrezkoa da",
+	"mandatory_port": "Portua derrigorrezkoa da"
 }

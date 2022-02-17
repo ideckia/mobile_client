@@ -11,5 +11,7 @@
 	"no_data_received": "No se ha recibido ningún dato",
 	"reset_connection": "Reiniciar conexión",
 	"servers": "Servidores",
-	"insert_ip_view": "Vista para insertar IP"
+	"insert_ip_view": "Vista para insertar IP",
+	"mandatory_ip": "La IP es obligatoria",
+	"mandatory_port": "El puerto es obligatorio"
 }

@@ -11,5 +11,7 @@
 	"no_data_received": "No data received",
 	"reset_connection": "Reset connection",
 	"servers": "Servers",
-	"insert_ip_view": "Insert IP view"
+	"insert_ip_view": "Insert IP view",
+	"mandatory_ip": "The IP is mandatory",
+	"mandatory_port": "The port is mandatory"
 }
