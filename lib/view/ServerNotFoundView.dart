@@ -68,6 +68,7 @@ class ServerNotFoundView extends StatelessWidget {
                                 TextInputType.numberWithOptions(decimal: true),
                             style: TextStyle(
                               fontSize: 20,
+                              color: shadeColor,
                             ),
                             decoration: InputDecoration(
                               hintText: '192.168.xxx.xxx',
