@@ -43,12 +43,10 @@ class _LookForServerViewState extends State<LookForServerView> {
   void connectHost(String ip, int port) {
     Log.info('Connecting to IP: $ip / port: $port');
 
-    final newState = (ip == '') ? Status.searching : Status.single_found;
-
     manualPortController.text = port.toString();
     autoPortController.text = port.toString();
     setState(() {
-      status = newState;
+      status = (ip == '') ? Status.searching : Status.single_found;
       theIp = ip;
       thePort = port;
     });

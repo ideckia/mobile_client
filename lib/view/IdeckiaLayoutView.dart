@@ -16,7 +16,6 @@ class IdeckiaLayoutView extends StatelessWidget {
     required this.channel,
     required this.defaultWidget,
   }) : super(key: key);
-  IdeckiaLayout? ideckiaLayout;
   final IOWebSocketChannel channel;
   final Widget defaultWidget;
 
@@ -150,17 +149,6 @@ class IdeckiaLayoutView extends StatelessWidget {
     return retChildren;
   }
 
-  Widget noDataWidget(String text) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        vertical: 24.0,
-      ),
-      child: Text(
-        text,
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -170,7 +158,14 @@ class IdeckiaLayoutView extends StatelessWidget {
             Log.debug(
                 "Connection state: ${snapshot.connectionState} / hasData: ${snapshot.hasData} / hasError: ${snapshot.hasError}");
             if (snapshot.hasError) {
-              return noDataWidget(snapshot.error.toString());
+              return Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 24.0,
+                ),
+                child: Text(
+                  snapshot.error.toString(),
+                ),
+              );
             }
 
             if (snapshot.connectionState == ConnectionState.done) {
@@ -180,7 +175,7 @@ class IdeckiaLayoutView extends StatelessWidget {
             if (snapshot.hasData) {
               ServerMsg serverMsg =
                   ServerMsg.fromJson(jsonDecode(snapshot.data));
-              if (serverMsg != null && serverMsg.type == 'layout') {
+              if (serverMsg.type == 'layout') {
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: createLayout(
@@ -191,7 +186,11 @@ class IdeckiaLayoutView extends StatelessWidget {
               }
             }
 
-            return noDataWidget(tr('no_data_received'));
+            return new Center(
+              child: new CircularProgressIndicator(
+                semanticsValue: tr('looking_for_server'),
+              ),
+            );
           }),
     );
   }
