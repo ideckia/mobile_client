@@ -4,6 +4,7 @@ import 'package:ideckia/Log.dart';
 import 'package:ideckia/ServerFinder.dart';
 import 'package:ideckia/model/Server.dart';
 import 'package:ideckia/view/ServerSelectorView.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:web_socket_channel/io.dart';
 
 import 'IdeckiaLayoutView.dart';
@@ -11,7 +12,7 @@ import 'LogView.dart';
 import 'ServerNotFoundView.dart';
 
 class LookForServerView extends StatefulWidget {
-  LookForServerView({Key key}) : super(key: key);
+  LookForServerView({Key? key}) : super(key: key);
   //
   @override
   _LookForServerViewState createState() => _LookForServerViewState();
@@ -27,12 +28,12 @@ enum Status {
 class _LookForServerViewState extends State<LookForServerView> {
   static const int DEFAULT_PORT = 8888;
 
-  String theIp;
+  String theIp = '';
   Status status = Status.searching;
-  int thePort;
+  int thePort = DEFAULT_PORT;
   int tapCount = 0;
   bool showLog = false;
-  List<Server> foundServers;
+  List<Server> foundServers = [];
   final manualIpController = TextEditingController(text: '192.168.');
   final manualPortController =
       TextEditingController(text: DEFAULT_PORT.toString());
@@ -42,7 +43,7 @@ class _LookForServerViewState extends State<LookForServerView> {
   void connectHost(String ip, int port) {
     Log.info('Connecting to IP: $ip / port: $port');
 
-    final newState = (ip == null) ? Status.searching : Status.single_found;
+    final newState = (ip == '') ? Status.searching : Status.single_found;
 
     manualPortController.text = port.toString();
     autoPortController.text = port.toString();
@@ -76,7 +77,7 @@ class _LookForServerViewState extends State<LookForServerView> {
       status = Status.searching;
       tapCount = 0;
       showLog = false;
-      theIp = null;
+      theIp = '';
     });
   }
 
@@ -85,7 +86,7 @@ class _LookForServerViewState extends State<LookForServerView> {
       status = Status.not_found;
       tapCount = 0;
       showLog = false;
-      theIp = null;
+      theIp = '';
     });
   }
 
@@ -93,7 +94,7 @@ class _LookForServerViewState extends State<LookForServerView> {
   void initState() {
     super.initState();
     status = Status.searching;
-    theIp = null;
+    theIp = '';
     thePort = DEFAULT_PORT;
   }
 

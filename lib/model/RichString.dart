@@ -2,12 +2,12 @@ class RichString {
   bool bold = false;
   bool italic = false;
   bool underline = false;
-  int size;
-  String color;
-  String text;
+  int? size;
+  String? color;
+  String? text;
   String matched;
 
-  RichString(this.text);
+  RichString({required this.matched});
 
   @override
   String toString() {

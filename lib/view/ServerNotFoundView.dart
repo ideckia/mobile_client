@@ -4,12 +4,12 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 class ServerNotFoundView extends StatelessWidget {
   ServerNotFoundView({
-    Key key,
-    this.port,
+    Key? key,
+    required this.port,
     this.manualIpController,
     this.manualPortController,
     this.autoPortController,
-    this.callback,
+    required this.callback,
   }) : super(key: key);
   final int port;
   final manualIpController;

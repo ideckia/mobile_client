@@ -5,9 +5,9 @@ import 'package:ideckia/model/Server.dart';
 
 class ServerSelectorView extends StatelessWidget {
   ServerSelectorView({
-    Key key,
-    this.servers,
-    this.onSelected,
+    Key? key,
+    required this.servers,
+    required this.onSelected,
   }) : super(key: key);
   final List<Server> servers;
   final Function(String) onSelected;

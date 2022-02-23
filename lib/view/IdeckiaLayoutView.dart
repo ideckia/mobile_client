@@ -12,12 +12,11 @@ import 'package:web_socket_channel/io.dart';
 
 class IdeckiaLayoutView extends StatelessWidget {
   IdeckiaLayoutView({
-    Key key,
-    this.ideckiaLayout,
-    this.channel,
-    this.defaultWidget,
+    Key? key,
+    required this.channel,
+    required this.defaultWidget,
   }) : super(key: key);
-  final IdeckiaLayout ideckiaLayout;
+  IdeckiaLayout? ideckiaLayout;
   final IOWebSocketChannel channel;
   final Widget defaultWidget;
 
@@ -42,10 +41,6 @@ class IdeckiaLayoutView extends StatelessWidget {
   }
 
   List<Widget> createLayout(IdeckiaLayout ideckiaLayout, BuildContext context) {
-    if (ideckiaLayout == null) {
-      return [];
-    }
-
     var mediaQuery = MediaQuery.of(context);
     var screenSize = mediaQuery.size;
 

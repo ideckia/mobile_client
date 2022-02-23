@@ -6,8 +6,8 @@ import 'package:ideckia/Log.dart';
 import 'model/Server.dart';
 
 class ServerFinder {
-  static List<Server> serverList;
-  static int port;
+  static List<Server> serverList = [];
+  static int port = 0;
 
   static Future<List<Server>> discover(int port) async {
     serverList = [];
@@ -31,12 +31,15 @@ class ServerFinder {
     await Future.wait(futures).then((List<Server> serverResponsesList) {
       serverResponsesList.forEach((Server serverResponse) {
         var serverName = serverResponse.name;
-        if (serverName == null) {
+        if (serverName == '') {
           return;
         }
         var host = serverResponse.ip;
         Log.info('Response from host: $host / serverName: $serverName');
-        serverList.add(Server(serverName, host));
+        serverList.add(Server(
+          name: serverName,
+          ip: host,
+        ));
       });
     }).onError((error, stackTrace) {
       Log.error('Error searching for server.', error);
@@ -58,13 +61,22 @@ class ServerFinder {
           streamContent = t;
         var serverName =
             (streamContent == null) ? null : jsonDecode(streamContent)['pong'];
-        return Future.value(Server(serverName, ip));
+        return Future.value(Server(
+          name: serverName,
+          ip: ip,
+        ));
       }).catchError((error) {
-        return Future.value(Server(null, ip));
+        return Future.value(Server(
+          name: '',
+          ip: ip,
+        ));
       });
     } catch (e) {
       Log.error("Error calling to $ip:$port/ping", e);
-      return Future.value(Server(null, ip));
+      return Future.value(Server(
+        name: '',
+        ip: ip,
+      ));
     }
   }
 }

@@ -9,7 +9,7 @@ class ItemState {
   final double textSize;
   final Color textColor;
   final Color bgColor;
-  final Uint8List iconData;
+  final Uint8List? iconData;
   const ItemState(
     this.id,
     this.text,
@@ -19,16 +19,16 @@ class ItemState {
     this.iconData,
   );
 
-  static final String defaultText = '';
-  static final double defaultTextSize = 18;
-  static final Color defaultTextColor = Colors.white;
+  static const String DEFAULT_TEXT = '';
+  static const double DEFAULT_TEXT_SIZE = 18;
+  static const Color DEFAULT_TEXT_COLOR = Colors.white;
   static final Color defaultbgColor = Colors.blueGrey.shade900;
 
   factory ItemState.fromJson(Map<String, dynamic> json) {
     var allNull = true;
 
-    String text = defaultText;
-    double textSize = defaultTextSize;
+    String text = DEFAULT_TEXT;
+    double textSize = DEFAULT_TEXT_SIZE;
     if (json['text'] != null) {
       text = json['text'].toString();
       allNull = false;
@@ -36,7 +36,7 @@ class ItemState {
         textSize = json['textSize'].toDouble();
       }
     }
-    Color textColor = defaultTextColor;
+    Color textColor = DEFAULT_TEXT_COLOR;
     if (json['textColor'] != null) {
       textColor = Color(int.parse(json['textColor'], radix: 16));
       allNull = false;
@@ -46,7 +46,7 @@ class ItemState {
       bgColor = Color(int.parse(json['bgColor'], radix: 16));
       allNull = false;
     }
-    Uint8List iconData;
+    Uint8List? iconData;
     if (json['icon'] != null) {
       var iconBase64 = json['icon'].toString();
       iconData = base64Decode(iconBase64);
@@ -70,9 +70,9 @@ class ItemState {
   factory ItemState.empty() {
     return ItemState(
       -1,
-      defaultText,
-      defaultTextSize,
-      defaultTextColor,
+      DEFAULT_TEXT,
+      DEFAULT_TEXT_SIZE,
+      DEFAULT_TEXT_COLOR,
       defaultbgColor,
       null,
     );
