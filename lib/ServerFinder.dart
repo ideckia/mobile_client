@@ -42,7 +42,7 @@ class ServerFinder {
         ));
       });
     }).onError((error, stackTrace) {
-      Log.error('Error searching for server.', error);
+      Log.error('Error searching for server.', error.toString());
     });
 
     return (serverList.isEmpty)
@@ -72,7 +72,7 @@ class ServerFinder {
         ));
       });
     } catch (e) {
-      Log.error("Error calling to $ip:$port/ping", e);
+      Log.error("Error calling to $ip:$port/ping", e.toString());
       return Future.value(Server(
         name: '',
         ip: ip,

@@ -2,6 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import '../Log.dart';
+
 class ServerNotFoundView extends StatelessWidget {
   ServerNotFoundView({
     Key? key,
@@ -121,13 +123,15 @@ class ServerNotFoundView extends StatelessWidget {
                 onPressed: () {
                   var portText = portController.text;
                   if (portText == null || portText == '') {
+                    Log.error("Port is mandatory", null);
                     toast(tr("mandatory_port"));
                     return;
                   }
-                  var ipText;
+                  var ipText = '';
                   if (ipController != null) {
-                    ipText = ipController;
-                    if (ipText == null || ipText == '') {
+                    ipText = ipController.text;
+                    if (ipText == '') {
+                      Log.error("IP is mandatory", null);
                       toast(tr("mandatory_ip"));
                       return;
                     }

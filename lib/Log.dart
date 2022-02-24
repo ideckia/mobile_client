@@ -11,8 +11,9 @@ class Log {
     _log('INFO', msg);
   }
 
-  static void error(String msg, error) {
-    _log('ERROR', msg + ': $error');
+  static void error(String msg, String? error) {
+    if (error != null) msg += ': $error';
+    _log('ERROR', msg);
   }
 
   static void _log(String level, String msg) {

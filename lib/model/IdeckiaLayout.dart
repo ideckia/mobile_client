@@ -9,7 +9,6 @@ class IdeckiaLayout {
 
   factory IdeckiaLayout.fromJson(Map<String, dynamic> json) {
     var fixedItems = (json['fixedItems'] as List);
-    if (fixedItems == null) fixedItems = [];
 
     return IdeckiaLayout(
       json['rows'],
