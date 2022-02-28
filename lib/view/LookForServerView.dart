@@ -4,7 +4,6 @@ import 'package:ideckia/Log.dart';
 import 'package:ideckia/ServerFinder.dart';
 import 'package:ideckia/model/Server.dart';
 import 'package:ideckia/view/ServerSelectorView.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:web_socket_channel/io.dart';
 
 import 'IdeckiaLayoutView.dart';
@@ -41,7 +40,7 @@ class _LookForServerViewState extends State<LookForServerView> {
       TextEditingController(text: DEFAULT_PORT.toString());
 
   void connectHost(String ip, int port) {
-    Log.info('Connecting to IP: $ip / port: $port');
+    Log.info('Connecting to IP: [$ip] / port: [$port]');
 
     manualPortController.text = port.toString();
     autoPortController.text = port.toString();

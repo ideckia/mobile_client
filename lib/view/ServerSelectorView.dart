@@ -38,7 +38,7 @@ class ServerSelectorView extends StatelessWidget {
               ),
             ),
             onTap: () {
-              Log.info('Connecting to ' + server.name);
+              Log.info('Connecting to [${server.name}]');
               onSelected(server.ip);
             },
           );

@@ -186,8 +186,8 @@ class IdeckiaLayoutView extends StatelessWidget {
               }
             }
 
-            return new Center(
-              child: new CircularProgressIndicator(
+            return Center(
+              child: CircularProgressIndicator(
                 semanticsValue: tr('looking_for_server'),
               ),
             );
