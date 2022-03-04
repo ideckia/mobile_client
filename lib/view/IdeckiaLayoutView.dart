@@ -12,12 +12,10 @@ import 'package:web_socket_channel/io.dart';
 
 class IdeckiaLayoutView extends StatelessWidget {
   IdeckiaLayoutView({
-    Key key,
-    this.ideckiaLayout,
-    this.channel,
-    this.defaultWidget,
+    Key? key,
+    required this.channel,
+    required this.defaultWidget,
   }) : super(key: key);
-  final IdeckiaLayout ideckiaLayout;
   final IOWebSocketChannel channel;
   final Widget defaultWidget;
 
@@ -42,13 +40,18 @@ class IdeckiaLayoutView extends StatelessWidget {
   }
 
   List<Widget> createLayout(IdeckiaLayout ideckiaLayout, BuildContext context) {
-    if (ideckiaLayout == null) {
-      return [];
-    }
-
     var mediaQuery = MediaQuery.of(context);
     var screenSize = mediaQuery.size;
+
+    var showFixedItems = ideckiaLayout.fixedItems.length > 0;
+
+    var itemsPercentage = .85;
+    var fixedPercentage = .15;
+
     var width = screenSize.width;
+    var fixedWidth = width * fixedPercentage;
+    if (showFixedItems) width *= itemsPercentage;
+
     var height = screenSize.height;
     int colCount = ideckiaLayout.columns;
     int rowCount = ideckiaLayout.rows;
@@ -58,6 +61,20 @@ class IdeckiaLayoutView extends StatelessWidget {
 
     final buttonSize = min(bWidth, bHeight) * .75;
     final radius = buttonSize / 3;
+
+    final fixedButtonSize = fixedWidth * .75;
+    final fixedRadius = fixedButtonSize / 3;
+
+    List<Widget> fixedColumnChildren = [];
+    for (var fixedItem in ideckiaLayout.fixedItems) {
+      fixedColumnChildren.add(ItemStateView(
+        itemState: fixedItem,
+        onClick: onItemClick,
+        onLongPress: onItemLongPress,
+        buttonSize: fixedButtonSize,
+        buttonRadius: fixedRadius,
+      ));
+    }
 
     List<Widget> rows = [];
     List<Widget> columns;
@@ -73,6 +90,7 @@ class IdeckiaLayoutView extends StatelessWidget {
         } else {
           itemState = items[itemIndex];
         }
+
         columns.add(ItemStateView(
           itemState: itemState,
           onClick: onItemClick,
@@ -87,18 +105,48 @@ class IdeckiaLayoutView extends StatelessWidget {
       ));
     }
 
-    return rows;
-  }
+    List<Widget> retChildren = [
+      Expanded(
+        flex: (1000 * itemsPercentage).round(),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: rows,
+        ),
+      ),
+    ];
 
-  Widget noDataWidget(String text) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        vertical: 24.0,
-      ),
-      child: Text(
-        text,
-      ),
-    );
+    if (showFixedItems) {
+      retChildren.add(
+        Expanded(
+          flex: 2,
+          child: Container(
+            color: Colors.yellowAccent.shade100,
+          ),
+        ),
+      );
+      retChildren.add(
+        Expanded(
+          flex: (1000 * fixedPercentage).round(),
+          child: Container(
+            color: Colors.grey.shade800,
+            child: ListView(
+              padding: const EdgeInsets.all(5),
+              scrollDirection: Axis.vertical,
+              children: fixedColumnChildren
+                  .map(
+                    (e) => Padding(
+                      padding: const EdgeInsets.only(top: 5),
+                      child: e,
+                    ),
+                  )
+                  .toList(),
+            ),
+          ),
+        ),
+      );
+    }
+
+    return retChildren;
   }
 
   @override
@@ -110,7 +158,14 @@ class IdeckiaLayoutView extends StatelessWidget {
             Log.debug(
                 "Connection state: ${snapshot.connectionState} / hasData: ${snapshot.hasData} / hasError: ${snapshot.hasError}");
             if (snapshot.hasError) {
-              return noDataWidget(snapshot.error.toString());
+              return Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 24.0,
+                ),
+                child: Text(
+                  snapshot.error.toString(),
+                ),
+              );
             }
 
             if (snapshot.connectionState == ConnectionState.done) {
@@ -120,8 +175,8 @@ class IdeckiaLayoutView extends StatelessWidget {
             if (snapshot.hasData) {
               ServerMsg serverMsg =
                   ServerMsg.fromJson(jsonDecode(snapshot.data));
-              if (serverMsg != null && serverMsg.type == 'layout') {
-                return Column(
+              if (serverMsg.type == 'layout') {
+                return Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: createLayout(
                     IdeckiaLayout.fromJson(serverMsg.data),
@@ -131,7 +186,11 @@ class IdeckiaLayoutView extends StatelessWidget {
               }
             }
 
-            return noDataWidget(tr('no_data_received'));
+            return Center(
+              child: CircularProgressIndicator(
+                semanticsValue: tr('looking_for_server'),
+              ),
+            );
           }),
     );
   }

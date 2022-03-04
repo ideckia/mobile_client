@@ -5,9 +5,9 @@ import 'package:ideckia/model/Server.dart';
 
 class ServerSelectorView extends StatelessWidget {
   ServerSelectorView({
-    Key key,
-    this.servers,
-    this.onSelected,
+    Key? key,
+    required this.servers,
+    required this.onSelected,
   }) : super(key: key);
   final List<Server> servers;
   final Function(String) onSelected;
@@ -25,11 +25,20 @@ class ServerSelectorView extends StatelessWidget {
         itemBuilder: (context, index) {
           var server = servers[index];
           return ListTile(
-            title: Text(server.name),
-            subtitle: Text(server.ip),
-            tileColor: Colors.blueGrey,
+            title: Text(
+              server.name,
+              style: TextStyle(
+                color: Colors.yellowAccent,
+              ),
+            ),
+            subtitle: Text(
+              server.ip,
+              style: TextStyle(
+                color: Colors.yellow.shade600,
+              ),
+            ),
             onTap: () {
-              Log.info('Connecting to ' + server.name);
+              Log.info('Connecting to [${server.name}]');
               onSelected(server.ip);
             },
           );

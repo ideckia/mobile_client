@@ -1,20 +1,34 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
+import '../Log.dart';
 
 class ServerNotFoundView extends StatelessWidget {
   ServerNotFoundView({
-    Key key,
-    this.port,
+    Key? key,
+    required this.port,
     this.manualIpController,
     this.manualPortController,
     this.autoPortController,
-    this.callback,
+    required this.callback,
   }) : super(key: key);
   final int port;
   final manualIpController;
   final manualPortController;
   final autoPortController;
   final Function(String, int) callback;
+
+  void toast(String msg) {
+    Fluttertoast.showToast(
+      msg: msg,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.CENTER,
+      backgroundColor: Colors.deepOrangeAccent,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
+  }
 
   Widget createIpColumn(
       title, ipLabel, ipController, portController, buttonLabel) {
@@ -56,6 +70,7 @@ class ServerNotFoundView extends StatelessWidget {
                                 TextInputType.numberWithOptions(decimal: true),
                             style: TextStyle(
                               fontSize: 20,
+                              color: shadeColor,
                             ),
                             decoration: InputDecoration(
                               hintText: '192.168.xxx.xxx',
@@ -106,9 +121,24 @@ class ServerNotFoundView extends StatelessWidget {
               flex: 3,
               child: ElevatedButton(
                 onPressed: () {
+                  var portText = portController.text;
+                  if (portText == null || portText == '') {
+                    Log.error("Port is mandatory", null);
+                    toast(tr("mandatory_port"));
+                    return;
+                  }
+                  var ipText = '';
+                  if (ipController != null) {
+                    ipText = ipController.text;
+                    if (ipText == '') {
+                      Log.error("IP is mandatory", null);
+                      toast(tr("mandatory_ip"));
+                      return;
+                    }
+                  }
                   callback(
-                    (ipController == null) ? null : ipController.text,
-                    int.parse(portController.text),
+                    ipText,
+                    int.parse(portText),
                   );
                 },
                 child: Center(

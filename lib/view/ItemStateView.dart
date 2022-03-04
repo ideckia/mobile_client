@@ -5,12 +5,12 @@ import 'package:simple_rich_text/simple_rich_text.dart';
 
 class ItemStateView extends StatelessWidget {
   ItemStateView({
-    Key key,
-    this.itemState,
-    this.buttonSize,
-    this.buttonRadius,
-    this.onClick,
-    this.onLongPress,
+    Key? key,
+    required this.itemState,
+    required this.buttonSize,
+    required this.buttonRadius,
+    required this.onClick,
+    required this.onLongPress,
   }) : super(key: key);
   final ItemState itemState;
   final Function(int) onClick;
@@ -28,14 +28,13 @@ class ItemStateView extends StatelessWidget {
       Iterable<RegExpMatch> matches = detectorRreg.allMatches(text);
 
       matches.forEach((match) {
-        var detected = match.group(0);
+        var detected = match.group(0) ?? '';
         Iterable<RegExpMatch> extractorMatches =
             extractorEreg.allMatches(detected);
-        var rs = new RichString('');
-        rs.matched = detected;
+        var rs = new RichString(matched: detected);
         var lastEnd;
         extractorMatches.forEach((extractorMatch) {
-          var value = extractorMatch.group(1);
+          var value = extractorMatch.group(1) ?? '';
           if (value == 'b') rs.bold = true;
           if (value == 'i') rs.italic = true;
           if (value == 'u') rs.underline = true;
@@ -60,7 +59,7 @@ class ItemStateView extends StatelessWidget {
     List<RichString> richStrings = extractRichStrings(text);
 
     richStrings.forEach((rs) {
-      var richText = rs.text;
+      var richText = rs.text ?? '';
       if (rs.color != null || rs.size != null) {
         var obj = [];
         if (rs.color != null) obj.add('color:${rs.color}');
@@ -70,7 +69,7 @@ class ItemStateView extends StatelessWidget {
       if (rs.bold) richText = '*$richText*';
       if (rs.underline) richText = '_${richText}_';
       if (rs.italic) richText = '/$richText/';
-      if (rs.matched != null) text = text.replaceAll(rs.matched, richText);
+      if (rs.matched != '') text = text.replaceAll(rs.matched, richText);
     });
 
     return text;
@@ -78,6 +77,7 @@ class ItemStateView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var iconData = itemState.iconData;
     return MaterialButton(
       padding: EdgeInsets.all(8.0),
       textColor: itemState.textColor,
@@ -88,10 +88,10 @@ class ItemStateView extends StatelessWidget {
         borderRadius: BorderRadius.circular(buttonRadius),
       ),
       child: Container(
-        decoration: itemState.iconData != null
+        decoration: iconData != null
             ? BoxDecoration(
                 image: DecorationImage(
-                  image: MemoryImage(itemState.iconData),
+                  image: MemoryImage(iconData),
                   fit: BoxFit.scaleDown,
                 ),
               )
@@ -101,7 +101,7 @@ class ItemStateView extends StatelessWidget {
         child: Align(
           alignment: Alignment.bottomCenter,
           child: SimpleRichText(
-            createSimpleRichTextString(itemState.text),
+            createSimpleRichTextString(itemState.text.replaceAll('/', '\\/')),
             style: TextStyle(
               fontSize: itemState.textSize,
               color: itemState.textColor,

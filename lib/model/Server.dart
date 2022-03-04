@@ -1,15 +1,18 @@
 class Server {
-  String name;
+  final String name;
   final String ip;
 
-  Server(this.name, this.ip);
+  Server({
+    required this.name,
+    required this.ip,
+  });
 
   static const String NOT_FOUND = "not_found";
 
   factory Server.notFound() {
     return Server(
-      NOT_FOUND,
-      null,
+      name: NOT_FOUND,
+      ip: '',
     );
   }
 }

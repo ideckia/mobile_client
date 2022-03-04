@@ -5,9 +5,9 @@ import '../Log.dart';
 
 class LogView extends StatelessWidget {
   LogView({
-    Key key,
-    this.toInsertIP,
-    this.reload,
+    Key? key,
+    required this.toInsertIP,
+    required this.reload,
   }) : super(key: key);
   final Function toInsertIP;
   final Function reload;
