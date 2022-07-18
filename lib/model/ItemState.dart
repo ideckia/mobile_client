@@ -49,7 +49,7 @@ class ItemState {
     Uint8List? iconData;
     if (json['icon'] != null) {
       var iconBase64 = json['icon'].toString();
-      iconData = base64Decode(iconBase64);
+      iconData = base64Decode(iconBase64.split(',').last);
       allNull = false;
     }
 
