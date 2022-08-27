@@ -99,7 +99,11 @@ class ItemStateView extends StatelessWidget {
         height: buttonSize,
         width: buttonSize,
         child: Align(
-          alignment: Alignment.bottomCenter,
+          alignment: itemState.textPosition == 'top'
+              ? Alignment.topCenter
+              : itemState.textPosition == 'center'
+                  ? Alignment.center
+                  : Alignment.bottomCenter,
           child: SimpleRichText(
             createSimpleRichTextString(itemState.text.replaceAll('/', '\\/')),
             style: TextStyle(

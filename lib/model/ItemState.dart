@@ -8,6 +8,7 @@ class ItemState {
   final String text;
   final double textSize;
   final Color textColor;
+  final String textPosition;
   final Color bgColor;
   final Uint8List? iconData;
   const ItemState(
@@ -15,6 +16,7 @@ class ItemState {
     this.text,
     this.textSize,
     this.textColor,
+    this.textPosition,
     this.bgColor,
     this.iconData,
   );
@@ -22,6 +24,7 @@ class ItemState {
   static const String DEFAULT_TEXT = '';
   static const double DEFAULT_TEXT_SIZE = 18;
   static const Color DEFAULT_TEXT_COLOR = Colors.white;
+  static const String DEFAULT_TEXT_POSITION = 'bottom';
   static final Color defaultbgColor = Colors.blueGrey.shade900;
 
   factory ItemState.fromJson(Map<String, dynamic> json) {
@@ -39,6 +42,11 @@ class ItemState {
     Color textColor = DEFAULT_TEXT_COLOR;
     if (json['textColor'] != null) {
       textColor = Color(int.parse(json['textColor'], radix: 16));
+      allNull = false;
+    }
+    String textPosition = DEFAULT_TEXT_POSITION;
+    if (json['textPosition'] != null) {
+      textPosition = json['textPosition'];
       allNull = false;
     }
     Color bgColor = defaultbgColor;
@@ -62,6 +70,7 @@ class ItemState {
       text,
       textSize,
       textColor,
+      textPosition,
       bgColor,
       iconData,
     );
@@ -73,6 +82,7 @@ class ItemState {
       DEFAULT_TEXT,
       DEFAULT_TEXT_SIZE,
       DEFAULT_TEXT_COLOR,
+      DEFAULT_TEXT_POSITION,
       defaultbgColor,
       null,
     );
