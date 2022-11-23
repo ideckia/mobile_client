@@ -5,6 +5,7 @@ import 'package:ideckia/ServerFinder.dart';
 import 'package:ideckia/model/Server.dart';
 import 'package:ideckia/view/ServerSelectorView.dart';
 import 'package:web_socket_channel/io.dart';
+import 'package:wakelock/wakelock.dart';
 
 import 'IdeckiaLayoutView.dart';
 import 'LogView.dart';
@@ -112,6 +113,7 @@ class _LookForServerViewState extends State<LookForServerView> {
         ),
       );
     } else if (status == Status.not_found) {
+      Wakelock.disable();
       retWidget = new ServerNotFoundView(
         port: thePort,
         manualIpController: manualIpController,
@@ -125,6 +127,7 @@ class _LookForServerViewState extends State<LookForServerView> {
         onSelected: (String ip) => connectHost(ip, thePort),
       );
     } else {
+      Wakelock.enable();
       retWidget = IdeckiaLayoutView(
         channel: IOWebSocketChannel.connect('ws://$theIp:$thePort'),
         defaultWidget: new ServerNotFoundView(

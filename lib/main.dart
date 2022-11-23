@@ -4,7 +4,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:keep_screen_on/keep_screen_on.dart';
 
 import 'Log.dart';
 import 'view/LookForServerView.dart';
@@ -27,8 +26,7 @@ Future<void> main() async {
         child: Ideckia(),
       ),
     );
-    KeepScreenOn.turnOn();
-    SystemChrome.setEnabledSystemUIOverlays([]);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
   }, (dynamic error, StackTrace stacktrace) {
     Log.error("Unhandled error", error);
     Fluttertoast.showToast(
@@ -55,9 +53,11 @@ class Ideckia extends StatelessWidget {
         primaryColor: Colors.grey,
         primarySwatch: Colors.grey,
         fontFamily: 'Ubuntu',
-        primaryTextTheme: TextTheme(
-          headline6: TextStyle(
+        appBarTheme: AppBarTheme(
+          titleTextStyle: TextStyle(
             color: textColor,
+            fontFamily: 'Ubuntu',
+            fontSize: 22,
           ),
         ),
         primaryIconTheme: const IconThemeData.fallback().copyWith(
@@ -65,7 +65,7 @@ class Ideckia extends StatelessWidget {
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            onPrimary: textColor,
+            foregroundColor: textColor,
           ),
         ),
         textTheme: TextTheme(
