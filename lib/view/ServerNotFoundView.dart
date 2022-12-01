@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:wakelock/wakelock.dart';
 
 import '../Log.dart';
 
@@ -159,6 +160,7 @@ class ServerNotFoundView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Wakelock.disable();
     return Scaffold(
       appBar: AppBar(
         title: Text(tr('no_server_found_title')),

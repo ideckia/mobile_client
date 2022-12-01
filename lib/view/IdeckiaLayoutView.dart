@@ -9,15 +9,16 @@ import 'package:ideckia/model/ItemState.dart';
 import 'package:ideckia/model/ServerMsg.dart';
 import 'package:ideckia/view/ItemStateView.dart';
 import 'package:web_socket_channel/io.dart';
+import 'package:wakelock/wakelock.dart';
 
 class IdeckiaLayoutView extends StatelessWidget {
   IdeckiaLayoutView({
     Key? key,
     required this.channel,
-    required this.defaultWidget,
+    required this.fallbackWidget,
   }) : super(key: key);
   final IOWebSocketChannel channel;
-  final Widget defaultWidget;
+  final Widget fallbackWidget;
 
   void onItemClick(int itemId) {
     channel.sink.add(
@@ -151,6 +152,7 @@ class IdeckiaLayoutView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Wakelock.enable();
     return Scaffold(
       body: StreamBuilder(
           stream: channel.stream,
@@ -169,7 +171,7 @@ class IdeckiaLayoutView extends StatelessWidget {
             }
 
             if (snapshot.connectionState == ConnectionState.done) {
-              return defaultWidget;
+              return fallbackWidget;
             }
 
             if (snapshot.hasData) {
