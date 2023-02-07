@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ideckia/model/ItemState.dart';
-import 'package:ideckia/model/RichString.dart';
-import 'package:simple_rich_text/simple_rich_text.dart';
+import 'package:ideckia/model/StyledText.dart';
 
 class ItemStateView extends StatelessWidget {
   ItemStateView({
@@ -18,62 +17,6 @@ class ItemStateView extends StatelessWidget {
   final double buttonSize;
   final double buttonRadius;
   //
-
-  List<RichString> extractRichStrings(text) {
-    var detectorRreg = RegExp('\{([^\}]*)+[\}]+');
-    var extractorEreg = RegExp('\{([^:]*):');
-
-    List<RichString> extracted = [];
-    if (detectorRreg.hasMatch(text)) {
-      Iterable<RegExpMatch> matches = detectorRreg.allMatches(text);
-
-      matches.forEach((match) {
-        var detected = match.group(0) ?? '';
-        Iterable<RegExpMatch> extractorMatches =
-            extractorEreg.allMatches(detected);
-        var rs = new RichString(matched: detected);
-        var lastEnd;
-        extractorMatches.forEach((extractorMatch) {
-          var value = extractorMatch.group(1) ?? '';
-          if (value == 'b') rs.bold = true;
-          if (value == 'i') rs.italic = true;
-          if (value == 'u') rs.underline = true;
-          if (value.startsWith('color.')) {
-            rs.color = value.replaceAll('color.', '');
-          }
-          if (value.startsWith('size.')) {
-            rs.size = int.parse(value.replaceAll('size.', ''));
-          }
-
-          lastEnd = extractorMatch.end;
-        });
-        rs.text = detected.substring(lastEnd).replaceAll('}', '');
-
-        extracted.add(rs);
-      });
-    }
-    return extracted;
-  }
-
-  String createSimpleRichTextString(String text) {
-    List<RichString> richStrings = extractRichStrings(text);
-
-    richStrings.forEach((rs) {
-      var richText = rs.text ?? '';
-      if (rs.color != null || rs.size != null) {
-        var obj = [];
-        if (rs.color != null) obj.add('color:${rs.color}');
-        if (rs.size != null) obj.add('fontSize:${rs.size}');
-        richText = '~{${obj.join(',')}}$richText~';
-      }
-      if (rs.bold) richText = '*$richText*';
-      if (rs.underline) richText = '_${richText}_';
-      if (rs.italic) richText = '/$richText/';
-      if (rs.matched != '') text = text.replaceAll(rs.matched, richText);
-    });
-
-    return text;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -99,14 +42,12 @@ class ItemStateView extends StatelessWidget {
         height: buttonSize,
         width: buttonSize,
         child: Align(
-          alignment: Alignment.bottomCenter,
-          child: SimpleRichText(
-            createSimpleRichTextString(itemState.text.replaceAll('/', '\\/')),
-            style: TextStyle(
-              fontSize: itemState.textSize,
-              color: itemState.textColor,
-            ),
-          ),
+          alignment: itemState.textPosition == 'top'
+              ? Alignment.topCenter
+              : itemState.textPosition == 'center'
+                  ? Alignment.center
+                  : Alignment.bottomCenter,
+          child: StyledText.get(itemState),
         ),
       ),
       onPressed: () {

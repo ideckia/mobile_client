@@ -127,7 +127,7 @@ class _LookForServerViewState extends State<LookForServerView> {
     } else {
       retWidget = IdeckiaLayoutView(
         channel: IOWebSocketChannel.connect('ws://$theIp:$thePort'),
-        defaultWidget: new ServerNotFoundView(
+        fallbackWidget: new ServerNotFoundView(
           port: thePort,
           manualIpController: manualIpController,
           manualPortController: manualPortController,
