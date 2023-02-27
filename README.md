@@ -1,6 +1,8 @@
 # ideckia
 
-Mobile client for [ideckia](http://github.com/ideckia/ideckia). This app only shows the server state and executes actions in the server when clicked elements. Really nothing happens in this app, basically is a remote control.
+Mobile client for [ideckia](http://ideckia.github.io). Download the latest version from the [releases page](https://github.com/ideckia/mobile_client/releases/latest)
+
+This app only shows the server state and executes actions in the server when clicked elements. Really nothing happens in this app, basically is a remote control.
 
 ## Log view
 
