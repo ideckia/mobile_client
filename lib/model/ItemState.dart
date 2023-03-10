@@ -3,6 +3,8 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 
+import 'IdeckiaLayout.dart';
+
 class ItemState {
   final int id;
   final String text;
@@ -56,7 +58,7 @@ class ItemState {
     }
     Uint8List? iconData;
     if (json['icon'] != null) {
-      var iconBase64 = json['icon'].toString();
+      var iconBase64 = IdeckiaLayout.icons[json['icon']];
       iconData = base64Decode(iconBase64.split(',').last);
       allNull = false;
     }

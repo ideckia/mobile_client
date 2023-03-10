@@ -3,12 +3,15 @@ import 'package:ideckia/model/ItemState.dart';
 class IdeckiaLayout {
   final int rows;
   final int columns;
+  static Map icons = new Map();
   final List<ItemState> items;
   final List<ItemState> fixedItems;
   const IdeckiaLayout(this.rows, this.columns, this.items, this.fixedItems);
 
   factory IdeckiaLayout.fromJson(Map<String, dynamic> json) {
     var fixedItems = (json['fixedItems'] as List);
+
+    icons = (json['icons'] as Map);
 
     return IdeckiaLayout(
       json['rows'],
