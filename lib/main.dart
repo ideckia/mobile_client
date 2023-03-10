@@ -69,8 +69,8 @@ class Ideckia extends StatelessWidget {
           ),
         ),
         textTheme: TextTheme(
-          bodyText1: TextStyle(),
-          bodyText2: TextStyle(),
+          bodyLarge: TextStyle(),
+          bodyMedium: TextStyle(),
         ).apply(
           bodyColor: textColor,
         ),
