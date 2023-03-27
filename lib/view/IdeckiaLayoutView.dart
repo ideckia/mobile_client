@@ -130,9 +130,12 @@ class IdeckiaLayoutView extends StatelessWidget {
               );
             }
           },
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: rows,
+          child: DecoratedBox(
+            decoration: BoxDecoration(color: ideckiaLayout.bgColor),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: rows,
+            ),
           ),
         ),
       )
