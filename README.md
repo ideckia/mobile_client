@@ -4,6 +4,13 @@ Mobile client for [ideckia](http://ideckia.github.io). Download the latest versi
 
 This app only shows the server state and executes actions in the server when clicked elements. Really nothing happens in this app, basically is a remote control.
 
+## Gestures
+
+Some gestures support was added:
+
+* Horizontal swipe, from left to right: Goes to the previous directory
+* Vertical swipe, from top to bottom: Goes to the main directory
+
 ## Log view
 
 Touch the screen with three fingers to show the log. In this view there are to buttons in the top-right corner:
