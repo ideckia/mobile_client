@@ -118,7 +118,7 @@ class IdeckiaLayoutView extends StatelessWidget {
           },
           onPointerUp: (event) {
             var xDragLength = event.position.dx - startPosX;
-            var yDragLength = event.position.dy - startPosY;
+            var yDragLength = startPosY - event.position.dy;
             var xDragProp = xDragLength / screenSize.width;
             var yDragProp = yDragLength / screenSize.height;
             var threshold = .2;

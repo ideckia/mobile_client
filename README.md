@@ -9,7 +9,7 @@ This app only shows the server state and executes actions in the server when cli
 Some gestures support was added:
 
 * Horizontal swipe, from left to right: Goes to the previous directory
-* Vertical swipe, from top to bottom: Goes to the main directory
+* Vertical swipe, from bottom to top: Goes to the main directory
 
 ## Log view
 
