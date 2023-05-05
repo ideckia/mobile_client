@@ -1,23 +1,40 @@
-## Ideckia: Privacy policy
+# Privacy Policy
 
-Welcome to the Ideckia app for Android!
+Ideckia takes your privacy seriously. To better protect your privacy we provide this privacy policy notice explaining the way your personal information is collected and used.
 
-This is an open source Android app developed by Josu Igoa. The source code is available on GitHub under the GPLv2 license; the app is also available on Google Play and F-Droid.
 
-This application does not save any information about the user or the preferences selected.
+## Collection of Routine Information
 
-### Explanation of permissions requested in the app
+This app track basic information about their users. This information includes, but is not limited to, IP addresses, app details, timestamps and referring pages. None of this information can personally identify specific user to this app. The information is tracked for routine administration and maintenance purposes.
 
-The list of permissions required by the app can be found in the `AndroidManifest.xml` file:
 
-https://github.com/ideckia/mobile_client/blob/develop/android/app/src/main/AndroidManifest.xml#L3-L5
+## Cookies
 
-<br/>
+Where necessary, this app uses cookies to store information about a visitor’s preferences and history in order to better serve the user and/or present the user with customized content.
 
-| Permission | Why it is required |
-| :---: | --- |
-| `android.permission.INTERNET` | This is required to communicate with the computer this app will control. May sound scary to have permission to the internet, but it only is used to get the panel information from the server and send back what item was clicked, no user data involved. |
 
- <hr style="border:1px solid gray">
+## Advertisement and Other Third Parties
 
-If you find any security vulnerability that has been inadvertently caused by me, or have any question regarding how the app protectes your privacy, please post a discussion on GitHub, and I will surely try to fix it/help you.
+Advertising partners and other third parties may use cookies, scripts and/or web beacons to track user activities on this app in order to display advertisements and other useful information. Such tracking is done directly by the third parties through their own servers and is subject to their own privacy policies. This app has no access or control over these cookies, scripts and/or web beacons that may be used by third parties. Learn how to [opt out of Google’s cookie usage](http://www.google.com/privacy_ads.html).
+
+
+## Links to Third Party Websites
+
+Wehave included links on this app for your use and reference. Weare not responsible for the privacy policies on these websites. You should be aware that the privacy policies of these websites may differ from our own.
+
+
+## Security
+
+The security of your personal information is important to us, but remember that no method of transmission over the Internet, or method of electronic storage, is 100% secure. While westrive to use commercially acceptable means to protect your personal information, wecannot guarantee its absolute security.
+
+
+## Changes To This Privacy Policy
+
+This Privacy Policy is effective as of 2023-05-05 and will remain in effect except with respect to any changes in its provisions in the future, which will be in effect immediately after being posted on this page.
+
+Wereserve the right to update or change our Privacy Policy at any time and you should check this Privacy Policy periodically. If wemake any material changes to this Privacy Policy, wewill notify you either through the email address you have provided us, or by placing a prominent notice on our app.
+
+
+## Contact Information
+
+For any questions or concerns regarding the privacy policy, please send us an email to josuigoa@gmail.com.
