@@ -58,7 +58,9 @@ class ItemState {
     }
     Uint8List? iconData;
     if (json['icon'] != null) {
-      var iconBase64 = IdeckiaLayout.icons[json['icon']];
+      var iconBase64 = (IdeckiaLayout.icons != null)
+          ? IdeckiaLayout.icons[json['icon']]
+          : json['icon'].toString();
       iconData = base64Decode(iconBase64.split(',').last);
       allNull = false;
     }

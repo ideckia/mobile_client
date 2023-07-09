@@ -106,14 +106,39 @@ class IdeckiaLayoutView extends StatelessWidget {
       ));
     }
 
+    var startPosX = .0;
+    var startPosY = .0;
     List<Widget> retChildren = [
       Expanded(
         flex: (1000 * itemsPercentage).round(),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: rows,
+        child: Listener(
+          onPointerDown: (event) {
+            startPosX = event.position.dx;
+            startPosY = event.position.dy;
+          },
+          onPointerUp: (event) {
+            var xDragLength = event.position.dx - startPosX;
+            var yDragLength = startPosY - event.position.dy;
+            var xDragProp = xDragLength / screenSize.width;
+            var yDragProp = yDragLength / screenSize.height;
+            var threshold = .2;
+            if (xDragProp > threshold || yDragProp > threshold) {
+              var toDir = (xDragLength > yDragLength) ? 'prev' : 'main';
+              channel.sink.add(
+                jsonEncode(
+                    {'type': 'gotoDir', 'toDir': toDir, 'whoami': 'client'}),
+              );
+            }
+          },
+          child: DecoratedBox(
+            decoration: BoxDecoration(color: ideckiaLayout.bgColor),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: rows,
+            ),
+          ),
         ),
-      ),
+      )
     ];
 
     if (showFixedItems) {
