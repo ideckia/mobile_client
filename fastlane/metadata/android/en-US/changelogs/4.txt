@@ -1,0 +1,4 @@
+- Handle gestures to send commands to server
+- add Dir.bgColor
+- allow back compatibility without icon cache
+- Prepare application for f-droid
