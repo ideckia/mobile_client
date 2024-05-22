@@ -3,18 +3,18 @@ import 'dart:io';
 
 import 'package:ideckia/Log.dart';
 
-import 'model/Server.dart';
+import 'model/Core.dart';
 
-class ServerFinder {
-  static List<Server> serverList = [];
+class CoreFinder {
+  static List<Core> coreList = [];
   static int port = 0;
 
-  static Future<List<Server>> discover(int port) async {
-    serverList = [];
-    ServerFinder.port = port;
+  static Future<List<Core>> discover(int port) async {
+    coreList = [];
+    CoreFinder.port = port;
     var client = HttpClient();
     client.connectionTimeout = Duration(seconds: 2);
-    List<Future<Server>> futures = [];
+    List<Future<Core>> futures = [];
     try {
       for (var i = 0; i < 256; i++) {
         futures.add(doPing(
@@ -26,31 +26,31 @@ class ServerFinder {
       client.close();
     }
 
-    serverList = [];
+    coreList = [];
 
-    await Future.wait(futures).then((List<Server> serverResponsesList) {
-      serverResponsesList.forEach((Server serverResponse) {
-        var serverName = serverResponse.name;
-        if (serverName == '') {
+    await Future.wait(futures).then((List<Core> coreResponsesList) {
+      coreResponsesList.forEach((Core coreResponse) {
+        var coreName = coreResponse.name;
+        if (coreName == '') {
           return;
         }
-        var host = serverResponse.ip;
-        Log.info('Response from host: $host / serverName: $serverName');
-        serverList.add(Server(
-          name: serverName,
+        var host = coreResponse.ip;
+        Log.info('Response from host: $host / coreName: $coreName');
+        coreList.add(Core(
+          name: coreName,
           ip: host,
         ));
       });
     }).onError((error, stackTrace) {
-      Log.error('Error searching for server.', error.toString());
+      Log.error('Error searching for core.', error.toString());
     });
 
-    return (serverList.isEmpty)
-        ? Future.value([Server.notFound()])
-        : Future.value(serverList);
+    return (coreList.isEmpty)
+        ? Future.value([Core.notFound()])
+        : Future.value(coreList);
   }
 
-  static Future<Server> doPing(HttpClient client, String ip) {
+  static Future<Core> doPing(HttpClient client, String ip) {
     try {
       return client
           .get(ip, port, '/ping')
@@ -59,21 +59,21 @@ class ServerFinder {
         var streamContent;
         await for (String t in response.transform(utf8.decoder))
           streamContent = t;
-        var serverName =
+        var coreName =
             (streamContent == null) ? null : jsonDecode(streamContent)['pong'];
-        return Future.value(Server(
-          name: serverName,
+        return Future.value(Core(
+          name: coreName,
           ip: ip,
         ));
       }).catchError((error) {
-        return Future.value(Server(
+        return Future.value(Core(
           name: '',
           ip: ip,
         ));
       });
     } catch (e) {
       Log.error("Error calling to $ip:$port/ping", e.toString());
-      return Future.value(Server(
+      return Future.value(Core(
         name: '',
         ip: ip,
       ));

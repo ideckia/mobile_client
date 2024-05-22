@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import 'Log.dart';
-import 'view/LookForServerView.dart';
+import 'view/LookForCoreView.dart';
 
 Future<void> main() async {
   runZonedGuarded(() async {
@@ -78,7 +78,7 @@ class Ideckia extends StatelessWidget {
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
-      home: LookForServerView(),
+      home: LookForCoreView(),
     );
   }
 }

@@ -1,20 +1,20 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:ideckia/Log.dart';
-import 'package:ideckia/ServerFinder.dart';
-import 'package:ideckia/model/Server.dart';
-import 'package:ideckia/view/ServerSelectorView.dart';
+import 'package:ideckia/CoreFinder.dart';
+import 'package:ideckia/model/Core.dart';
+import 'package:ideckia/view/CoreSelectorView.dart';
 import 'package:web_socket_channel/io.dart';
 
 import 'IdeckiaLayoutView.dart';
 import 'LogView.dart';
-import 'ServerNotFoundView.dart';
+import 'CoreNotFoundView.dart';
 
-class LookForServerView extends StatefulWidget {
-  LookForServerView({Key? key}) : super(key: key);
+class LookForCoreView extends StatefulWidget {
+  LookForCoreView({Key? key}) : super(key: key);
   //
   @override
-  _LookForServerViewState createState() => _LookForServerViewState();
+  _LookForCoreViewState createState() => _LookForCoreViewState();
 }
 
 enum Status {
@@ -24,7 +24,7 @@ enum Status {
   single_found,
 }
 
-class _LookForServerViewState extends State<LookForServerView> {
+class _LookForCoreViewState extends State<LookForCoreView> {
   static const int DEFAULT_PORT = 8888;
 
   String theIp = '';
@@ -32,7 +32,7 @@ class _LookForServerViewState extends State<LookForServerView> {
   int thePort = DEFAULT_PORT;
   int tapCount = 0;
   bool showLog = false;
-  List<Server> foundServers = [];
+  List<Core> foundCores = [];
   final manualIpController = TextEditingController(text: '192.168.');
   final manualPortController =
       TextEditingController(text: DEFAULT_PORT.toString());
@@ -51,16 +51,16 @@ class _LookForServerViewState extends State<LookForServerView> {
     });
   }
 
-  void serversFound(List<Server> foundServers) {
-    this.foundServers = foundServers;
-    if (foundServers.length > 1) {
+  void coresFound(List<Core> foundCores) {
+    this.foundCores = foundCores;
+    if (foundCores.length > 1) {
       setState(() {
         status = Status.multiple_found;
       });
     } else {
-      var server = foundServers[0];
-      if (server.name != Server.NOT_FOUND) {
-        connectHost(server.ip, thePort);
+      var core = foundCores[0];
+      if (core.name != Core.NOT_FOUND) {
+        connectHost(core.ip, thePort);
       } else {
         setState(() {
           status = Status.not_found;
@@ -105,14 +105,14 @@ class _LookForServerViewState extends State<LookForServerView> {
         reload: reloadFromLogs,
       );
     } else if (status == Status.searching) {
-      ServerFinder.discover(thePort).then(serversFound);
+      CoreFinder.discover(thePort).then(coresFound);
       retWidget = new Center(
         child: new CircularProgressIndicator(
-          semanticsValue: tr('looking_for_server'),
+          semanticsValue: tr('looking_for_core'),
         ),
       );
     } else if (status == Status.not_found) {
-      retWidget = new ServerNotFoundView(
+      retWidget = new CoreNotFoundView(
         port: thePort,
         manualIpController: manualIpController,
         manualPortController: manualPortController,
@@ -120,14 +120,14 @@ class _LookForServerViewState extends State<LookForServerView> {
         callback: connectHost,
       );
     } else if (status == Status.multiple_found) {
-      retWidget = ServerSelectorView(
-        servers: foundServers,
+      retWidget = CoreSelectorView(
+        cores: foundCores,
         onSelected: (String ip) => connectHost(ip, thePort),
       );
     } else {
       retWidget = IdeckiaLayoutView(
         channel: IOWebSocketChannel.connect('ws://$theIp:$thePort'),
-        fallbackWidget: new ServerNotFoundView(
+        fallbackWidget: new CoreNotFoundView(
           port: thePort,
           manualIpController: manualIpController,
           manualPortController: manualPortController,

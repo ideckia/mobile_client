@@ -5,8 +5,8 @@ import 'package:wakelock/wakelock.dart';
 
 import '../Log.dart';
 
-class ServerNotFoundView extends StatelessWidget {
-  ServerNotFoundView({
+class CoreNotFoundView extends StatelessWidget {
+  CoreNotFoundView({
     Key? key,
     required this.port,
     this.manualIpController,
@@ -163,7 +163,7 @@ class ServerNotFoundView extends StatelessWidget {
     Wakelock.disable();
     return Scaffold(
       appBar: AppBar(
-        title: Text(tr('no_server_found_title')),
+        title: Text(tr('no_core_found_title')),
       ),
       body: Row(
         children: [
@@ -172,7 +172,7 @@ class ServerNotFoundView extends StatelessWidget {
             tr('insert_ip'),
             manualIpController,
             manualPortController,
-            tr('manual_find_server'),
+            tr('manual_find_core'),
           ),
           Expanded(
             flex: 1,
@@ -185,7 +185,7 @@ class ServerNotFoundView extends StatelessWidget {
             tr('auto_ip'),
             null,
             autoPortController,
-            tr('try_auto_find_server'),
+            tr('try_auto_find_core'),
           ),
         ],
       ),

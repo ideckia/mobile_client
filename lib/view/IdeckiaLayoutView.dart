@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:ideckia/Log.dart';
 import 'package:ideckia/model/IdeckiaLayout.dart';
 import 'package:ideckia/model/ItemState.dart';
-import 'package:ideckia/model/ServerMsg.dart';
+import 'package:ideckia/model/CoreMsg.dart';
 import 'package:ideckia/view/ItemStateView.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:wakelock/wakelock.dart';
@@ -200,13 +200,12 @@ class IdeckiaLayoutView extends StatelessWidget {
             }
 
             if (snapshot.hasData) {
-              ServerMsg serverMsg =
-                  ServerMsg.fromJson(jsonDecode(snapshot.data));
-              if (serverMsg.type == 'layout') {
+              CoreMsg coreMsg = CoreMsg.fromJson(jsonDecode(snapshot.data));
+              if (coreMsg.type == 'layout') {
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: createLayout(
-                    IdeckiaLayout.fromJson(serverMsg.data),
+                    IdeckiaLayout.fromJson(coreMsg.data),
                     context,
                   ),
                 );
@@ -215,7 +214,7 @@ class IdeckiaLayoutView extends StatelessWidget {
 
             return Center(
               child: CircularProgressIndicator(
-                semanticsValue: tr('looking_for_server'),
+                semanticsValue: tr('looking_for_core'),
               ),
             );
           }),
