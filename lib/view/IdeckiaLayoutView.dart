@@ -19,6 +19,8 @@ class IdeckiaLayoutView extends StatelessWidget {
   }) : super(key: key);
   final IOWebSocketChannel channel;
   final Widget fallbackWidget;
+  var startPosX = .0;
+  var startPosY = .0;
 
   void onItemClick(int itemId) {
     channel.sink.add(
@@ -106,8 +108,6 @@ class IdeckiaLayoutView extends StatelessWidget {
       ));
     }
 
-    var startPosX = .0;
-    var startPosY = .0;
     List<Widget> retChildren = [
       Expanded(
         flex: (1000 * itemsPercentage).round(),
