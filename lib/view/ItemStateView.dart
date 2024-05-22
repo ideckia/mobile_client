@@ -25,7 +25,6 @@ class ItemStateView extends StatelessWidget {
       padding: EdgeInsets.all(8.0),
       textColor: itemState.textColor,
       color: itemState.bgColor,
-      splashColor: Colors.greenAccent,
       elevation: 8.0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(buttonRadius),
