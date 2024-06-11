@@ -20,6 +20,7 @@ class StyledText {
   static Text get(ItemState itemState) {
     var baseStyle = TextStyle(
       fontSize: itemState.textSize,
+      height: 1,
       color: itemState.textColor,
     );
     var text = itemState.text;
