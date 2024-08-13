@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:ideckia/Log.dart';
@@ -103,6 +105,17 @@ class _LookForCoreViewState extends State<LookForCoreView> {
       retWidget = LogView(
         toInsertIP: toInsertIPFromLogs,
         reload: reloadFromLogs,
+      );
+    } else if (Platform.isLinux || Platform.isWindows || Platform.isMacOS) {
+      retWidget = IdeckiaLayoutView(
+        channel: IOWebSocketChannel.connect('ws://127.0.0.1:8888'),
+        fallbackWidget: new CoreNotFoundView(
+          port: thePort,
+          manualIpController: manualIpController,
+          manualPortController: manualPortController,
+          autoPortController: autoPortController,
+          callback: connectHost,
+        ),
       );
     } else if (status == Status.searching) {
       CoreFinder.discover(thePort).then(coresFound);
