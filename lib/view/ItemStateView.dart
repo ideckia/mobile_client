@@ -8,11 +8,11 @@ class ItemStateView extends StatelessWidget {
     required this.itemState,
     required this.buttonSize,
     required this.buttonRadius,
-    required this.onClick,
+    required this.onPress,
     required this.onLongPress,
   }) : super(key: key);
   final ItemState itemState;
-  final Function(int) onClick;
+  final Function(int) onPress;
   final Function(int) onLongPress;
   final double buttonSize;
   final double buttonRadius;
@@ -32,6 +32,7 @@ class ItemStateView extends StatelessWidget {
       child: Container(
         decoration: iconData != null
             ? BoxDecoration(
+                borderRadius: BorderRadius.circular(buttonRadius),
                 image: DecorationImage(
                   image: MemoryImage(iconData),
                   fit: BoxFit.scaleDown,
@@ -50,7 +51,7 @@ class ItemStateView extends StatelessWidget {
         ),
       ),
       onPressed: () {
-        onClick(itemState.id);
+        onPress(itemState.id);
       },
       onLongPress: () {
         onLongPress(itemState.id);

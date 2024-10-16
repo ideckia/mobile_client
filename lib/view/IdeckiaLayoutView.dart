@@ -72,7 +72,7 @@ class IdeckiaLayoutView extends StatelessWidget {
     for (var fixedItem in ideckiaLayout.fixedItems) {
       fixedColumnChildren.add(ItemStateView(
         itemState: fixedItem,
-        onClick: onItemClick,
+        onPress: onItemClick,
         onLongPress: onItemLongPress,
         buttonSize: fixedButtonSize,
         buttonRadius: fixedRadius,
@@ -96,7 +96,7 @@ class IdeckiaLayoutView extends StatelessWidget {
 
         columns.add(ItemStateView(
           itemState: itemState,
-          onClick: onItemClick,
+          onPress: onItemClick,
           onLongPress: onItemLongPress,
           buttonSize: buttonSize,
           buttonRadius: radius,
