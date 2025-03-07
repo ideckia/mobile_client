@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:wakelock/wakelock.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 import '../Log.dart';
 
@@ -160,7 +160,7 @@ class CoreNotFoundView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Wakelock.disable();
+    WakelockPlus.disable();
     return Scaffold(
       appBar: AppBar(
         title: Text(tr('no_core_found_title')),

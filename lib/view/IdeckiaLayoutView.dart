@@ -8,8 +8,8 @@ import 'package:ideckia/model/IdeckiaLayout.dart';
 import 'package:ideckia/model/ItemState.dart';
 import 'package:ideckia/model/CoreMsg.dart';
 import 'package:ideckia/view/ItemStateView.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 import 'package:web_socket_channel/io.dart';
-import 'package:wakelock/wakelock.dart';
 
 class IdeckiaLayoutView extends StatelessWidget {
   IdeckiaLayoutView({
@@ -177,7 +177,7 @@ class IdeckiaLayoutView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Wakelock.enable();
+    WakelockPlus.enable();
     return Scaffold(
       body: StreamBuilder(
           stream: channel.stream,

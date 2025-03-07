@@ -108,7 +108,8 @@ class _LookForCoreViewState extends State<LookForCoreView> {
       );
     } else if (Platform.isLinux || Platform.isWindows || Platform.isMacOS) {
       retWidget = IdeckiaLayoutView(
-        channel: IOWebSocketChannel.connect('ws://127.0.0.1:8888'),
+        channel: IOWebSocketChannel.connect(
+            'ws://127.0.0.1:' + DEFAULT_PORT.toString()),
         fallbackWidget: new CoreNotFoundView(
           port: thePort,
           manualIpController: manualIpController,
