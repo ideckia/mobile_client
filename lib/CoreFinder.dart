@@ -66,6 +66,7 @@ class CoreFinder {
           ip: ip,
         ));
       }).catchError((error) {
+        Log.error("Error calling to $ip:$port/ping", error.toString());
         return Future.value(Core(
           name: '',
           ip: ip,

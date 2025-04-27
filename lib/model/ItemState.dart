@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 
 import 'IdeckiaLayout.dart';
@@ -12,7 +9,7 @@ class ItemState {
   final Color textColor;
   final String textPosition;
   final Color bgColor;
-  final Uint8List? iconData;
+  final String? iconData;
   const ItemState(
     this.id,
     this.text,
@@ -56,12 +53,12 @@ class ItemState {
       bgColor = Color(int.parse(json['bgColor'], radix: 16));
       allNull = false;
     }
-    Uint8List? iconData;
-    if (json['icon'] != null) {
-      var iconBase64 = (IdeckiaLayout.icons != null)
-          ? IdeckiaLayout.icons[json['icon']]
-          : json['icon'].toString();
-      iconData = base64Decode(iconBase64.split(',').last);
+    String? iconData;
+    String? jsonIcon = json['icon'];
+    if (jsonIcon != null) {
+      iconData = (IdeckiaLayout.icons.containsKey(jsonIcon))
+          ? IdeckiaLayout.icons[jsonIcon]
+          : jsonIcon;
       allNull = false;
     }
 

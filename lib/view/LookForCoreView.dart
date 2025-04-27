@@ -55,18 +55,22 @@ class _LookForCoreViewState extends State<LookForCoreView> {
 
   void coresFound(List<Core> foundCores) {
     this.foundCores = foundCores;
-    if (foundCores.length > 1) {
+    if (foundCores.length == 0) {
+      setState(() {
+        status = Status.not_found;
+      });
+    } else if (foundCores.length > 1) {
       setState(() {
         status = Status.multiple_found;
       });
     } else {
       var core = foundCores[0];
-      if (core.name != Core.NOT_FOUND) {
-        connectHost(core.ip, thePort);
-      } else {
+      if (core.name == Core.NOT_FOUND) {
         setState(() {
           status = Status.not_found;
         });
+      } else {
+        connectHost(core.ip, thePort);
       }
     }
   }
