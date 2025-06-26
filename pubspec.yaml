@@ -33,10 +33,11 @@ dependencies:
   fluttertoast: ^8.1.1
   recursive_regex: ^1.0.0
   flutter_launcher_icons: ^0.14.3
-  flutter_native_splash: ^2.2.16
+  flutter_native_splash: ^2.4.6
   flutter_svg: ^2.0.17
   flutter_svg_provider: ^1.0.7
   wakelock_plus: ^1.2.10
+  qr_code_scanner_plus: ^2.0.10+1
 
 dev_dependencies:
   flutter_test:
@@ -44,9 +45,19 @@ dev_dependencies:
 
 # flutter packages pub run flutter_native_splash:create
 flutter_native_splash:
-  web: false
   color: "#ffffff"
-  image: "assets/launcher/foreground.png"
+  color_dark: "#666666"
+  image: assets/launcher/foreground.png
+  android: true  # Enable splash screen for Android
+  ios: true  # Enable splash screen for iOS
+  ios_content_mode: scaleAspectFit  # Position of the image on iOS (scaleAspectFit, scaleToFill, etc.)
+  fullscreen: true  # Enable full-screen mode (removes the status bar)
+  web: false  # Disable splash screen for web
+
+  android_12:
+    image: assets/launcher/foreground.png
+    color: "#ffffff"
+    color_dark: "#666666"
 
 # flutter packages pub run flutter_launcher_icons:main
 flutter_icons:

@@ -2,15 +2,15 @@ import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:ideckia/Log.dart';
 import 'package:ideckia/CoreFinder.dart';
+import 'package:ideckia/Log.dart';
 import 'package:ideckia/model/Core.dart';
 import 'package:ideckia/view/CoreSelectorView.dart';
 import 'package:web_socket_channel/io.dart';
 
+import 'CoreNotFoundView.dart';
 import 'IdeckiaLayoutView.dart';
 import 'LogView.dart';
-import 'CoreNotFoundView.dart';
 
 class LookForCoreView extends StatefulWidget {
   LookForCoreView({Key? key}) : super(key: key);
@@ -35,19 +35,19 @@ class _LookForCoreViewState extends State<LookForCoreView> {
   int tapCount = 0;
   bool showLog = false;
   List<Core> foundCores = [];
-  final manualIpController = TextEditingController(text: '192.168.');
-  final manualPortController =
-      TextEditingController(text: DEFAULT_PORT.toString());
-  final autoPortController =
-      TextEditingController(text: DEFAULT_PORT.toString());
+  final ipController = TextEditingController(text: '192.168.1.*');
+  final portController = TextEditingController(text: DEFAULT_PORT.toString());
 
-  void connectHost(String ip, int port) {
-    Log.info('Connecting to IP: [$ip] / port: [$port]');
+  void connectHost(String address) {
+    Log.info('Connecting to address: [$address]');
 
-    manualPortController.text = port.toString();
-    autoPortController.text = port.toString();
+    var splitAddress = address.split(':');
+    var ip = splitAddress[0];
+    var port = int.parse(splitAddress[1]);
+
+    portController.text = port.toString();
     setState(() {
-      status = (ip == '') ? Status.searching : Status.single_found;
+      status = (ip.contains('*')) ? Status.searching : Status.single_found;
       theIp = ip;
       thePort = port;
     });
@@ -70,7 +70,7 @@ class _LookForCoreViewState extends State<LookForCoreView> {
           status = Status.not_found;
         });
       } else {
-        connectHost(core.ip, thePort);
+        connectHost('${core.ip}:$thePort');
       }
     }
   }
@@ -116,9 +116,8 @@ class _LookForCoreViewState extends State<LookForCoreView> {
             'ws://127.0.0.1:' + DEFAULT_PORT.toString()),
         fallbackWidget: new CoreNotFoundView(
           port: thePort,
-          manualIpController: manualIpController,
-          manualPortController: manualPortController,
-          autoPortController: autoPortController,
+          ipController: ipController,
+          portController: portController,
           callback: connectHost,
         ),
       );
@@ -132,24 +131,23 @@ class _LookForCoreViewState extends State<LookForCoreView> {
     } else if (status == Status.not_found) {
       retWidget = new CoreNotFoundView(
         port: thePort,
-        manualIpController: manualIpController,
-        manualPortController: manualPortController,
-        autoPortController: autoPortController,
+        ipController: ipController,
+        portController: portController,
         callback: connectHost,
       );
     } else if (status == Status.multiple_found) {
       retWidget = CoreSelectorView(
         cores: foundCores,
-        onSelected: (String ip) => connectHost(ip, thePort),
+        onSelected: (String ip) => connectHost('$ip:$thePort'),
       );
     } else {
       retWidget = IdeckiaLayoutView(
         channel: IOWebSocketChannel.connect('ws://$theIp:$thePort'),
         fallbackWidget: new CoreNotFoundView(
           port: thePort,
-          manualIpController: manualIpController,
-          manualPortController: manualPortController,
-          autoPortController: autoPortController,
+          ipController: ipController,
+          portController: portController,
+          // autoPortController: autoPortController,
           callback: connectHost,
         ),
       );
