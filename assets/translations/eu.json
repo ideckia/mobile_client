@@ -1,8 +1,7 @@
 {
 	"looking_for_core": "Aplikazioarekin konektatzen saiatzen",
 	"scan_qr_title": "Konektatzeko, eskaneatu aplikazioko QR kodea",
-	"manual_connect_title": "Edo sartu helbidea (idatzi * bat IPan automatikoki bilatzeko)",
-	"try_auto_find_core": "Bilatu eta konektatu",
+	"auto_connect_title": "Edo utzi aplikazioari automatikoki bilatzen",
 	"search": "Bilatu",
 	"manual": "ESKUZ",
 	"insert_ip": "IPa:",

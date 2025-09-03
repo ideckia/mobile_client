@@ -1,8 +1,7 @@
 {
 	"looking_for_core": "Trying to connect to the core app",
 	"scan_qr_title": "Scan the QR code of the app to connect",
-	"manual_connect_title": "Or insert the address (write a * in the IP to find automatically)",
-	"try_auto_find_core": "Find & connect",
+	"auto_connect_title": "Or let the app look for the core automatically",
 	"search": "Search",
 	"manual": "MANUAL",
 	"insert_ip": "IP:",

@@ -1,8 +1,7 @@
 {
 	"looking_for_core": "Essayer de se connecter au application",
 	"scan_qr_title": "Scannez le code QR de l'application pour vous connecter",
-	"manual_connect_title": "Ou insérez l'adresse (écrivez un * dans l'IP pour trouver automatiquement)",
-	"try_auto_find_core": "Trouver et se connecter",
+	"auto_connect_title": "Ou laissez l'application rechercher automatiquement",
 	"scan_qr": "Scanner le code QR",
 	"search": "Chercher",
 	"manual": "MANUEL",

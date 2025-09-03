@@ -10,12 +10,10 @@ class CoreNotFoundView extends StatelessWidget {
   CoreNotFoundView({
     Key? key,
     required this.port,
-    this.ipController,
     this.portController,
     required this.callback,
   }) : super(key: key);
   final int port;
-  final ipController;
   final portController;
   final Function(String) callback;
 
@@ -84,7 +82,7 @@ class CoreNotFoundView extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        tr('manual_connect_title'),
+                        tr('auto_connect_title'),
                         style: TextStyle(
                           fontSize: 15,
                         ),
@@ -93,31 +91,6 @@ class CoreNotFoundView extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                      Text(
-                        tr('insert_ip'),
-                        style: TextStyle(
-                          fontSize: 18,
-                        ),
-                      ),
-                      Expanded(flex: 1, child: Container()),
-                      Expanded(
-                        flex: 10,
-                        child: TextField(
-                          controller: ipController,
-                          keyboardType: TextInputType.phone,
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: shadeColor,
-                          ),
-                          decoration: InputDecoration(
-                            hintText: '192.168.xxx.xxx',
-                            hintStyle: TextStyle(
-                              fontSize: 18,
-                              color: shadeColor,
-                            ),
-                          ),
-                        ),
-                      ),
                       Text(
                         tr('insert_port'),
                         style: TextStyle(
@@ -135,7 +108,7 @@ class CoreNotFoundView extends StatelessWidget {
                             color: shadeColor,
                           ),
                           decoration: InputDecoration(
-                            hintText: '192.168.xxx.xxx',
+                            hintText: '1234',
                             hintStyle: TextStyle(
                               fontSize: 18,
                               color: shadeColor,
@@ -154,16 +127,7 @@ class CoreNotFoundView extends StatelessWidget {
                               toast(tr("mandatory_port"));
                               return;
                             }
-                            var ipText = '';
-                            if (ipController != null) {
-                              ipText = ipController.text;
-                              if (ipText == '') {
-                                Log.error("IP is mandatory", null);
-                                toast(tr("mandatory_ip"));
-                                return;
-                              }
-                            }
-                            callback('$ipText:$portText');
+                            callback('*:$portText');
                           },
                           child: Center(
                             child: Text(

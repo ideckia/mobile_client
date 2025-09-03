@@ -1,8 +1,7 @@
 {
 	"looking_for_core": "Intentadon conectar con la aplicación",
 	"scan_qr_title": "Escanea el código QR de la aplicación para conectarse",
-	"manual_connect_title": "O inserta la dirección (escribe un * en la IP para buscar automáticamente)",
-	"try_auto_find_core": "Buscar y conectar",
+	"auto_connect_title": "O deja que la aplicación busque automáticamente",
 	"search": "Buscar",
 	"manual": "MANUAL",
 	"insert_ip": "IP:",

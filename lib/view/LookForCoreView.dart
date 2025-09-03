@@ -35,7 +35,6 @@ class _LookForCoreViewState extends State<LookForCoreView> {
   int tapCount = 0;
   bool showLog = false;
   List<Core> foundCores = [];
-  final ipController = TextEditingController(text: '192.168.1.*');
   final portController = TextEditingController(text: DEFAULT_PORT.toString());
 
   void connectHost(String address) {
@@ -116,7 +115,6 @@ class _LookForCoreViewState extends State<LookForCoreView> {
             'ws://127.0.0.1:' + DEFAULT_PORT.toString()),
         fallbackWidget: new CoreNotFoundView(
           port: thePort,
-          ipController: ipController,
           portController: portController,
           callback: connectHost,
         ),
@@ -131,7 +129,6 @@ class _LookForCoreViewState extends State<LookForCoreView> {
     } else if (status == Status.not_found) {
       retWidget = new CoreNotFoundView(
         port: thePort,
-        ipController: ipController,
         portController: portController,
         callback: connectHost,
       );
@@ -145,9 +142,7 @@ class _LookForCoreViewState extends State<LookForCoreView> {
         channel: IOWebSocketChannel.connect('ws://$theIp:$thePort'),
         fallbackWidget: new CoreNotFoundView(
           port: thePort,
-          ipController: ipController,
           portController: portController,
-          // autoPortController: autoPortController,
           callback: connectHost,
         ),
       );

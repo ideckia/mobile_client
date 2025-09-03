@@ -43,10 +43,10 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-# flutter packages pub run flutter_native_splash:create
+# dart run flutter_native_splash:create
 flutter_native_splash:
   color: "#ffffff"
-  color_dark: "#666666"
+  color_dark: "#999999"
   image: assets/launcher/foreground.png
   android: true  # Enable splash screen for Android
   ios: true  # Enable splash screen for iOS
@@ -57,9 +57,9 @@ flutter_native_splash:
   android_12:
     image: assets/launcher/foreground.png
     color: "#ffffff"
-    color_dark: "#666666"
+    color_dark: "#999999"
 
-# flutter packages pub run flutter_launcher_icons:main
+# dart run flutter_launcher_icons:main
 flutter_icons:
   ios: true
   android: true
